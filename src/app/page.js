@@ -29,6 +29,7 @@ export default function App() {
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
   const [recipientName, setRecipientName] = useState("");
+  const [typedGreeting, setTypedGreeting] = useState("");
 
   const audioRef = useRef(null);
 
@@ -42,6 +43,27 @@ export default function App() {
       }
     }
   }, []);
+
+  // Hiệu ứng chữ chạy (Typewriter Effect) gõ từng ký tự chào mừng khách mời
+  useEffect(() => {
+    if (!recipientName) return;
+    setTypedGreeting("");
+    const textToType = `Thân gửi: ${recipientName}`;
+    let i = 0;
+    
+    const delayTimeout = setTimeout(() => {
+      const interval = setInterval(() => {
+        setTypedGreeting(textToType.substring(0, i + 1));
+        i++;
+        if (i >= textToType.length) {
+          clearInterval(interval);
+        }
+      }, 80); // Tốc độ gõ 80ms mỗi ký tự
+      return () => clearInterval(interval);
+    }, 600); // Trì hoãn 600ms chờ trang load xong
+
+    return () => clearTimeout(delayTimeout);
+  }, [recipientName]);
 
   // Cơ chế Smart Autoplay bắt tương tác nhạy bén
   useEffect(() => {
@@ -282,8 +304,9 @@ export default function App() {
             <div className="text-center max-w-3xl mx-auto space-y-6 pt-6 select-none">
               {recipientName ? (
                 <ScrollReveal direction="down" delay={100} duration={800}>
-                  <div className="inline-flex items-center gap-2 bg-[#fad3fd]/65 text-[#725477] border border-white/60 px-5 py-2.5 rounded-full text-sm font-bold tracking-wide shadow-md backdrop-blur-xs animate-bounce">
-                    🌸 Thân gửi: <span className="font-serif italic font-extrabold text-[#0d6683] text-base ml-1">{recipientName}</span> 🌸
+                  <div className="inline-flex items-center gap-1.5 bg-[#fad3fd]/65 text-[#725477] border border-white/60 px-5 py-2.5 rounded-full text-sm font-bold tracking-wide shadow-md backdrop-blur-xs animate-bounce">
+                    🌸 <span className="font-serif italic font-extrabold text-[#0d6683] text-base ml-1">{typedGreeting}</span>
+                    <span className="w-[1.5px] h-3.5 bg-[#725477] animate-pulse ml-0.5" /> 🌸
                   </div>
                 </ScrollReveal>
               ) : (
