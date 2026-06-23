@@ -32,6 +32,28 @@ export default function App() {
   const [typedGreeting, setTypedGreeting] = useState("");
 
   const audioRef = useRef(null);
+  const audioContextRef = useRef(null);
+
+  // Khởi tạo/Lấy AudioContext đã được kích hoạt từ tương tác người dùng
+  const getAudioContext = () => {
+    if (typeof window === "undefined") return null;
+    try {
+      if (!audioContextRef.current) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioContextRef.current = new AudioContextClass();
+        }
+      }
+      const ctx = audioContextRef.current;
+      if (ctx && ctx.state === "suspended") {
+        ctx.resume();
+      }
+      return ctx;
+    } catch (e) {
+      console.error("Failed to get/resume AudioContext:", e);
+      return null;
+    }
+  };
 
   // Trích xuất tên người nhận từ URL Query Parameters (?to=Tên hoặc ?name=Tên)
   useEffect(() => {
@@ -85,6 +107,7 @@ export default function App() {
 
     const handleUserInteraction = () => {
       startAudio();
+      getAudioContext();
     };
 
     const cleanUpListeners = () => {
@@ -137,55 +160,75 @@ export default function App() {
   const hasConfettiFired = useRef(false);
 
   const playConfettiSound = () => {
-    if (typeof window === "undefined") return;
     try {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      const ctx = new AudioContext();
+      const ctx = getAudioContext();
+      if (!ctx) return;
       
-      // 1. Pop body: Sine wave decaying fast
+      const now = ctx.currentTime;
+      
+      // 1. The Pop: Thump/thud của pháo giấy (sử dụng sóng tam giác có tần số giảm dần nhanh)
       const osc = ctx.createOscillator();
       const gainOsc = ctx.createGain();
       
-      osc.type = "sine";
-      osc.frequency.setValueAtTime(140, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.12);
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(180, now);
+      osc.frequency.exponentialRampToValueAtTime(45, now + 0.08);
       
-      gainOsc.gain.setValueAtTime(0.4, ctx.currentTime);
-      gainOsc.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+      gainOsc.gain.setValueAtTime(0.6, now);
+      gainOsc.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
       
       osc.connect(gainOsc);
       gainOsc.connect(ctx.destination);
       
-      // 2. Air burst: Noise Buffer
-      const bufferSize = ctx.sampleRate * 0.08;
+      // 2. Air Burst: Tiếng rít hơi áp suất trung bình
+      const bufferSize = ctx.sampleRate * 0.15; // Buffer 150ms nhiễu trắng
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
       const data = buffer.getChannelData(0);
       for (let i = 0; i < bufferSize; i++) {
         data[i] = Math.random() * 2 - 1;
       }
       
-      const noise = ctx.createBufferSource();
-      noise.buffer = buffer;
+      const noiseSource = ctx.createBufferSource();
+      noiseSource.buffer = buffer;
       
-      const filter = ctx.createBiquadFilter();
-      filter.type = "bandpass";
-      filter.frequency.setValueAtTime(900, ctx.currentTime);
-      filter.Q.setValueAtTime(1.2, ctx.currentTime);
+      const noiseFilter = ctx.createBiquadFilter();
+      noiseFilter.type = "bandpass";
+      noiseFilter.frequency.setValueAtTime(700, now);
+      noiseFilter.Q.setValueAtTime(1.5, now);
       
       const gainNoise = ctx.createGain();
-      gainNoise.gain.setValueAtTime(0.25, ctx.currentTime);
-      gainNoise.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.06);
+      gainNoise.gain.setValueAtTime(0.35, now);
+      gainNoise.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
       
-      noise.connect(filter);
-      filter.connect(gainNoise);
+      noiseSource.connect(noiseFilter);
+      noiseFilter.connect(gainNoise);
       gainNoise.connect(ctx.destination);
       
-      // Play
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.12);
-      noise.start(ctx.currentTime);
-      noise.stop(ctx.currentTime + 0.08);
+      // 3. Confetti Fizz: Tiếng xào xạc của giấy bạc bay lơ lửng tần số cao
+      const fizzSource = ctx.createBufferSource();
+      fizzSource.buffer = buffer; // tái sử dụng buffer nhiễu trắng
+      
+      const fizzFilter = ctx.createBiquadFilter();
+      fizzFilter.type = "highpass";
+      fizzFilter.frequency.setValueAtTime(4000, now);
+      
+      const gainFizz = ctx.createGain();
+      gainFizz.gain.setValueAtTime(0.12, now);
+      gainFizz.gain.exponentialRampToValueAtTime(0.001, now + 0.25); // kéo dài hơn để mô phỏng giấy rơi
+      
+      fizzSource.connect(fizzFilter);
+      fizzFilter.connect(gainFizz);
+      gainFizz.connect(ctx.destination);
+      
+      // Khởi chạy đồng bộ tất cả các thành phần âm thanh
+      osc.start(now);
+      osc.stop(now + 0.08);
+      
+      noiseSource.start(now);
+      noiseSource.stop(now + 0.15);
+      
+      fizzSource.start(now);
+      fizzSource.stop(now + 0.25);
     } catch (e) {
       console.error("Audio context error:", e);
     }
@@ -284,6 +327,9 @@ export default function App() {
 
   const togglePlayMusic = () => {
     if (!audioRef.current) return;
+
+    // Kích hoạt AudioContext khi người dùng nhấn nút nhạc
+    getAudioContext();
 
     if (isPlayingMusic) {
       audioRef.current.pause();
