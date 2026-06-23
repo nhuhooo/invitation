@@ -304,9 +304,9 @@ export default function App() {
             <div className="text-center max-w-3xl mx-auto space-y-6 pt-6 select-none">
               {recipientName ? (
                 <ScrollReveal direction="down" delay={100} duration={800}>
-                  <div className="inline-flex items-center gap-1.5 bg-[#fad3fd]/65 text-[#725477] border border-white/60 px-5 py-2.5 rounded-full text-sm font-bold tracking-wide shadow-md backdrop-blur-xs animate-bounce">
-                    🌸 <span className="font-serif italic font-extrabold text-[#0d6683] text-base ml-1">{typedGreeting}</span>
-                    <span className="w-[1.5px] h-3.5 bg-[#725477] animate-pulse ml-0.5" /> 🌸
+                  <div className="text-xl sm:text-2xl md:text-3xl font-extrabold text-primary select-none flex items-center justify-center">
+                    <span className="font-serif italic">{typedGreeting}</span>
+                    <span className="w-[2px] h-6 sm:h-8 bg-primary animate-pulse ml-1" />
                   </div>
                 </ScrollReveal>
               ) : (
