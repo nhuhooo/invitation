@@ -136,10 +136,67 @@ export default function App() {
 
   const hasConfettiFired = useRef(false);
 
+  const playConfettiSound = () => {
+    if (typeof window === "undefined") return;
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      
+      // 1. Pop body: Sine wave decaying fast
+      const osc = ctx.createOscillator();
+      const gainOsc = ctx.createGain();
+      
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(140, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.12);
+      
+      gainOsc.gain.setValueAtTime(0.4, ctx.currentTime);
+      gainOsc.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.12);
+      
+      osc.connect(gainOsc);
+      gainOsc.connect(ctx.destination);
+      
+      // 2. Air burst: Noise Buffer
+      const bufferSize = ctx.sampleRate * 0.08;
+      const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
+      const data = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        data[i] = Math.random() * 2 - 1;
+      }
+      
+      const noise = ctx.createBufferSource();
+      noise.buffer = buffer;
+      
+      const filter = ctx.createBiquadFilter();
+      filter.type = "bandpass";
+      filter.frequency.setValueAtTime(900, ctx.currentTime);
+      filter.Q.setValueAtTime(1.2, ctx.currentTime);
+      
+      const gainNoise = ctx.createGain();
+      gainNoise.gain.setValueAtTime(0.25, ctx.currentTime);
+      gainNoise.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.06);
+      
+      noise.connect(filter);
+      filter.connect(gainNoise);
+      gainNoise.connect(ctx.destination);
+      
+      // Play
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + 0.12);
+      noise.start(ctx.currentTime);
+      noise.stop(ctx.currentTime + 0.08);
+    } catch (e) {
+      console.error("Audio context error:", e);
+    }
+  };
+
   const fireConfetti = async () => {
     try {
       const confetti = (await import("canvas-confetti")).default;
       
+      // Pháo giấy ở trung tâm
+      playConfettiSound();
       confetti({
         particleCount: 80,
         spread: 60,
@@ -147,7 +204,9 @@ export default function App() {
         colors: ["#0d6683", "#89cff0", "#725477", "#fad3fd", "#fed7aa"]
       });
       
+      // Pháo giấy góc trái bay lên
       setTimeout(() => {
+        playConfettiSound();
         confetti({
           particleCount: 50,
           angle: 60,
@@ -157,7 +216,9 @@ export default function App() {
         });
       }, 150);
       
+      // Pháo giấy góc phải bay lên
       setTimeout(() => {
+        playConfettiSound();
         confetti({
           particleCount: 50,
           angle: 120,

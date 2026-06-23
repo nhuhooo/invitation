@@ -7,24 +7,15 @@ const PASTEL_SHAPES = {
       <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
     </svg>
   ),
-  heart: (color) => (
-    <svg className="w-full h-full" viewBox="0 0 24 24" fill={color} opacity="0.3">
-      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
-    </svg>
-  ),
-  sparkle: (color) => (
-    <svg className="w-full h-full" viewBox="0 0 24 24" fill={color} opacity="0.55">
-      <path d="M12 2c-.5 4-3.5 7-7.5 7.5 4 .5 7 3.5 7.5 7.5.5-4 3.5-7 7.5-7.5-4-.5-7-3.5-7.5-7.5z" />
-    </svg>
-  ),
 };
 
 const PASTEL_COLORS = [
-  "#bae6fd", // sky-200
-  "#fbcfe8", // pink-200
-  "#e9d5ff", // purple-200
-  "#fed7aa", // orange-200
+  "#6cccff", // sky-200
+  "#fffb00", // orange-200
   "#c084fc", // purple-400
+  "#ff70e7", // purple-400
+  "#08d6ff", // purple-400
+  "#33ffc2", // purple-400
 ];
 
 export const FloatingDecoration = ({ activeTab }) => {
@@ -33,8 +24,8 @@ export const FloatingDecoration = ({ activeTab }) => {
   useEffect(() => {
     // Generate initial set of high-quality floating items
     // We keep it to 20 items to avoid cluttering and focus on premium look
-    const initialItems = Array.from({ length: 20 }).map((_, i) => {
-      const type = ["star", "heart", "sparkle"][i % 3];
+    const initialItems = Array.from({ length: 80 }).map((_, i) => {
+      const type = ["star"][i % 1];
       return {
         id: i,
         type,
