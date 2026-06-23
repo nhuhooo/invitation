@@ -28,8 +28,20 @@ export default function App() {
   const [activeTab, setActiveTab] = useState("HOME");
   const [isPlayingMusic, setIsPlayingMusic] = useState(false);
   const [countdown, setCountdown] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
+  const [recipientName, setRecipientName] = useState("");
 
   const audioRef = useRef(null);
+
+  // Trích xuất tên người nhận từ URL Query Parameters (?to=Tên hoặc ?name=Tên)
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const to = params.get("to") || params.get("name");
+      if (to) {
+        setRecipientName(to);
+      }
+    }
+  }, []);
 
   // Cơ chế Smart Autoplay bắt tương tác nhạy bén
   useEffect(() => {
@@ -265,14 +277,22 @@ export default function App() {
       <main className="flex-grow relative z-10 px-4 md:px-8 max-w-7xl mx-auto w-full space-y-0 py-0">
         
         {/* Section 1: HOME */}
-        <section id="home" className="min-h-[calc(100vh-80px)] flex flex-col justify-center snap-start snap-always scroll-mt-20 py-8">
+        <section id="home" className="min-h-[calc(100vh-80px)] flex flex-col justify-center scroll-mt-20 py-8">
           <div className="space-y-12">
             <div className="text-center max-w-3xl mx-auto space-y-6 pt-6 select-none">
-              <ScrollReveal direction="down" delay={100} duration={800}>
-                <div className="inline-flex items-center gap-1.5 bg-[#bee9ff] text-[#005974] px-4 py-1.5 rounded-full text-xs font-bold tracking-widest shadow-xs">
-                  <PartyPopper className="w-3.5 h-3.5" /> CHÀO MỪNG LỄ TỐT NGHIỆP TRỌNG ĐẠI
-                </div>
-              </ScrollReveal>
+              {recipientName ? (
+                <ScrollReveal direction="down" delay={100} duration={800}>
+                  <div className="inline-flex items-center gap-2 bg-[#fad3fd]/65 text-[#725477] border border-white/60 px-5 py-2.5 rounded-full text-sm font-bold tracking-wide shadow-md backdrop-blur-xs animate-bounce">
+                    🌸 Thân gửi: <span className="font-serif italic font-extrabold text-[#0d6683] text-base ml-1">{recipientName}</span> 🌸
+                  </div>
+                </ScrollReveal>
+              ) : (
+                <ScrollReveal direction="down" delay={100} duration={800}>
+                  <div className="inline-flex items-center gap-1.5 bg-[#bee9ff] text-[#005974] px-4 py-1.5 rounded-full text-xs font-bold tracking-widest shadow-xs">
+                    <PartyPopper className="w-3.5 h-3.5" /> CHÀO MỪNG LỄ TỐT NGHIỆP TRỌNG ĐẠI
+                  </div>
+                </ScrollReveal>
+              )}
 
               <ScrollReveal direction="up" delay={200} duration={1000}>
                 <h1 className="text-3xl md:text-5xl font-extrabold text-primary leading-tight tracking-tight">
@@ -328,14 +348,14 @@ export default function App() {
         </section>
 
         {/* Section 2: JOURNEY */}
-        <section id="journey" className="min-h-[calc(100vh-80px)] flex flex-col justify-center snap-start snap-always scroll-mt-20 border-t border-neutral-200/40 py-8">
+        <section id="journey" className="min-h-[calc(100vh-80px)] flex flex-col justify-center scroll-mt-20 border-t border-neutral-200/40 py-8">
           <ScrollReveal direction="up" duration={1000}>
             <HeartCollage />
           </ScrollReveal>
         </section>
 
         {/* Section 3: EVENT */}
-        <section id="event" className="min-h-[calc(100vh-80px)] flex flex-col justify-center snap-start snap-always scroll-mt-20 border-t border-neutral-200/40 py-8">
+        <section id="event" className="min-h-[calc(100vh-80px)] flex flex-col justify-center scroll-mt-20 border-t border-neutral-200/40 py-8">
           <div className="space-y-12">
             <ScrollReveal direction="up" duration={800}>
               <div className="text-center max-w-2xl mx-auto space-y-4 pt-4 select-none">
