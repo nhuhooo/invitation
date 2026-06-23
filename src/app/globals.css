@@ -1,26 +1,203 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --font-sans: "Quicksand", "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Quicksand", ui-sans-serif, system-ui, sans-serif;
+  --color-primary: #0d6683;
+  --color-primary-light: #89cff0;
+  --color-secondary: #725477;
+  --color-secondary-light: #fad3fd;
+  --color-mint: #2f6a3f;
+  --color-mint-light: #96d49f;
+  --color-pastel-bg: #f7f9fb;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer utilities {
+  .clay-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    box-shadow: 
+      0 8px 32px 0 rgba(13, 102, 131, 0.08),
+      inset 0 4px 12px 0 rgba(255, 255, 255, 0.5);
+  }
+  .clay-btn {
+    background: linear-gradient(135deg, #0d6683 0%, #158bb3 100%);
+    box-shadow: 
+      0 4px 15px 0 rgba(13, 102, 131, 0.25),
+      inset 0 2px 4px 0 rgba(255, 255, 255, 0.3);
+  }
+  .clay-btn-secondary {
+    background: linear-gradient(135deg, #725477 0%, #9974a0 100%);
+    box-shadow: 
+      0 4px 15px 0 rgba(114, 84, 119, 0.25),
+      inset 0 2px 4px 0 rgba(255, 255, 255, 0.3);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* Animations and decorative element support */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-15px) rotate(3deg);
+  }
 }
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(12px) rotate(-3deg);
+  }
+}
+
+.animate-float-reverse {
+  animation: float-reverse 7s ease-in-out infinite;
+}
+
+@keyframes pulse-subtle {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: scale(1.03);
+    opacity: 1;
+  }
+}
+
+.animate-pulse-subtle {
+  animation: pulse-subtle 4s ease-in-out infinite;
+}
+
+/* Premium Aurora Gradient Drift Animations */
+@keyframes drift {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(40px, -60px) scale(1.15);
+  }
+  66% {
+    transform: translate(-30px, 30px) scale(0.9);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+@keyframes drift-reverse {
+  0% {
+    transform: translate(0px, 0px) scale(1);
+  }
+  33% {
+    transform: translate(-40px, 50px) scale(0.85);
+  }
+  66% {
+    transform: translate(50px, -30px) scale(1.2);
+  }
+  100% {
+    transform: translate(0px, 0px) scale(1);
+  }
+}
+
+.animate-drift-1 {
+  animation: drift 20s infinite alternate ease-in-out;
+}
+
+.animate-drift-2 {
+  animation: drift-reverse 25s infinite alternate ease-in-out;
+}
+
+.animate-drift-3 {
+  animation: drift 22s infinite alternate ease-in-out;
+}
+
+/* Tech Dot Grid Pattern Overlay */
+.dot-grid {
+  background-image: radial-gradient(rgba(13, 102, 131, 0.04) 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+/* Staggered entrance animation for Heart Collage */
+.heart-grid-cell {
+  opacity: 0;
+  transform: scale(0.85);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity;
+}
+
+.heart-grid-visible .heart-grid-cell {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* Equalizer Bars Animations for Music playing */
+@keyframes bounce-bar-1 {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+@keyframes bounce-bar-2 {
+  0%, 100% { transform: scaleY(0.4); }
+  50% { transform: scaleY(0.85); }
+}
+@keyframes bounce-bar-3 {
+  0%, 100% { transform: scaleY(0.2); }
+  50% { transform: scaleY(0.9); }
+}
+.animate-eq-1 {
+  animation: bounce-bar-1 1s ease-in-out infinite;
+  transform-origin: bottom;
+}
+.animate-eq-2 {
+  animation: bounce-bar-2 0.8s ease-in-out infinite;
+  transform-origin: bottom;
+}
+.animate-eq-3 {
+  animation: bounce-bar-3 1.2s ease-in-out infinite;
+  transform-origin: bottom;
+}
+
+/* Button Shimmer Sweeping Light Reflection Effect */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.25) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shimmer 2.5s infinite;
+  pointer-events: none;
+}
+
+html {
+  scroll-snap-type: y mandatory;
+  scroll-padding-top: 80px;
+  scroll-behavior: smooth;
+}
+
