@@ -135,6 +135,7 @@ export const HeartCollage = ({
     const [isAssembled, setIsAssembled] = useState(false);
     const [assemblyStatus, setAssemblyStatus] = useState("idle"); // "idle" | "swirling" | "assembled"
     const [particlesData, setParticlesData] = useState([]);
+    const [collageImages, setCollageImages] = useState([]);
 
     const gridRef = useRef(null);
     const containerRef = useRef(null);
@@ -189,12 +190,57 @@ export const HeartCollage = ({
         };
     }, []);
 
+    // Fetch images from Vercel Blob via API route on mount
+    useEffect(() => {
+        const fetchImages = async () => {
+            try {
+                const res = await fetch("/api/images");
+                if (res.ok) {
+                    const data = await res.json();
+                    if (Array.isArray(data) && data.length > 0) {
+                        // Ensure we have at least 24 images, filling with preset fallbacks if needed
+                        const merged = [...data];
+                        while (merged.length < 24) {
+                            const presetIdx = (merged.length - data.length) % PRESET_IMAGES.length;
+                            merged.push({
+                                url: PRESET_IMAGES[presetIdx],
+                                caption: CAPTIONS[presetIdx % CAPTIONS.length],
+                            });
+                        }
+                        setCollageImages(merged);
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.error("Failed to fetch images from Vercel Blob:", err);
+            }
+
+            // Fallback to presets if fetch fails or returns empty
+            const fallback = PRESET_IMAGES.map((url, idx) => ({
+                url,
+                caption: CAPTIONS[idx % CAPTIONS.length],
+            }));
+            const finalFallback = [...fallback];
+            while (finalFallback.length < 24) {
+                const idx = finalFallback.length % fallback.length;
+                finalFallback.push(fallback[idx]);
+            }
+            setCollageImages(finalFallback);
+        };
+
+        fetchImages();
+    }, []);
+
     // Get photo at index
     const getPhotoForIndex = (gridIdx) => {
         if (gridIdx < customPhotos.length) {
             return customPhotos[gridIdx];
         }
-        const presetIdx = (gridIdx - customPhotos.length) % PRESET_IMAGES.length;
+        const adjustedIdx = gridIdx - customPhotos.length;
+        if (collageImages.length > 0) {
+            return collageImages[adjustedIdx % collageImages.length];
+        }
+        const presetIdx = adjustedIdx % PRESET_IMAGES.length;
         return {
             url: PRESET_IMAGES[presetIdx],
             caption: CAPTIONS[presetIdx % CAPTIONS.length],
@@ -411,7 +457,7 @@ export const HeartCollage = ({
     };
 
     useEffect(() => {
-        if (!isGridVisible || typeof window === "undefined" || !containerRef.current) return;
+        if (!isGridVisible || collageImages.length === 0 || typeof window === "undefined" || !containerRef.current) return;
 
         // Measure layout after initial display
         const timer = setTimeout(() => {
@@ -478,7 +524,7 @@ export const HeartCollage = ({
             clearTimeout(timer);
             if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
         };
-    }, [isGridVisible]);
+    }, [isGridVisible, collageImages]);
 
     const handlePointerDown = (e) => {
         if (isAssembled || !containerRef.current) return;
