@@ -537,7 +537,7 @@ export default function App() {
                   className="bg-[#fad3fd] text-[#77587c] font-bold px-4 py-1.5 rounded-full text-xs uppercase tracking-widest shadow-xs cursor-pointer hover:scale-105 active:scale-95 transition-all inline-block"
                   title="Nhấp để bắn pháo hoa giấy! 🎉"
                 >
-                  ✨ SAVE THE DATE  ✨
+                  ✨ SAVE THE DATE ✨
                 </span>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-[#0d6683] tracking-tight">
                   Cùng đánh dấu một cột mốc đáng nhớ

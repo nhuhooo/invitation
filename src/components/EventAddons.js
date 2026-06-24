@@ -40,7 +40,7 @@ export const EventAddons = ({ studentName }) => {
               <Calendar className="w-12 h-12 text-primary mx-auto mb-2" />
               <h3 className="text-md font-bold text-neutral-800">Lưu Lịch Lễ Tốt Nghiệp</h3>
               <p className="text-xs text-neutral-500 mt-1">
-                Tải tệp lịch hoặc truy cập trực tiếp để không bỏ lỡ cột mốc rực rỡ nhất!
+                Truy cập trực tiếp để không bỏ lỡ cột mốc rực rỡ nhất!
               </p>
             </div>
             <div className="space-y-2.5">
@@ -50,7 +50,7 @@ export const EventAddons = ({ studentName }) => {
                 rel="noreferrer"
                 className="w-full py-2.5 bg-primary text-white hover:bg-primary-light hover:text-primary rounded-full text-xs font-bold transition flex items-center justify-center gap-1.5"
               >
-                🗓️ Thêm Nhanh Vào Google Calendar
+                Thêm Nhanh Vào Google Calendar
               </a>
             </div>
           </div>
