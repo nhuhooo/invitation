@@ -13,7 +13,7 @@ export async function GET(request) {
   try {
     const token = process.env.BLOB_READ_WRITE_TOKEN;
     if (!token) {
-      console.error("DEBUG proxy: BLOB_READ_WRITE_TOKEN is missing in environment variables");
+      console.error("DEBUG proxy: BLOB_READ_WRITE_TOKEN is missing in environment variables. Available env keys:", Object.keys(process.env));
       return new NextResponse('Internal configuration error: Missing BLOB_READ_WRITE_TOKEN', { status: 500 });
     }
 
