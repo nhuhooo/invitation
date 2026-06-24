@@ -292,15 +292,6 @@ export default function App() {
         if (entry.isIntersecting) {
           const id = entry.target.id;
           setActiveTab(id.toUpperCase());
-
-          if (id === "event" && !hasConfettiFired.current) {
-            hasConfettiFired.current = true;
-            fireConfetti();
-          }
-        } else {
-          if (entry.target.id === "event") {
-            hasConfettiFired.current = false;
-          }
         }
       });
     }, observerOptions);
@@ -315,6 +306,37 @@ export default function App() {
         const el = document.getElementById(id);
         if (el) observer.unobserve(el);
       });
+    };
+  }, []);
+
+  // Dedicated observer to trigger Confetti when scrolling to Event
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const eventEl = document.getElementById("event");
+    const homeEl = document.getElementById("home");
+    if (!eventEl) return;
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.target.id === "event" && entry.isIntersecting && !hasConfettiFired.current) {
+          hasConfettiFired.current = true;
+          fireConfetti();
+        } else if (entry.target.id === "home" && entry.isIntersecting) {
+          // Reset confetti only when returning all the way to Home section
+          hasConfettiFired.current = false;
+        }
+      });
+    }, {
+      threshold: 0.25
+    });
+
+    observer.observe(eventEl);
+    if (homeEl) observer.observe(homeEl);
+
+    return () => {
+      observer.unobserve(eventEl);
+      if (homeEl) observer.unobserve(homeEl);
     };
   }, []);
 
@@ -433,7 +455,7 @@ export default function App() {
 
               <ScrollReveal direction="up" delay={300} duration={1000}>
                 <p className="text-neutral-500 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-                  💌 Sự hiện diện của you sẽ là món quà ý nghĩa nhất cho nhuhooo trong khoảnh khắc đáng nhớ này! 🎓
+                  Sự hiện diện của you sẽ là món quà ý nghĩa nhất cho nhuhooo trong khoảnh khắc đáng nhớ này!
                 </p>
               </ScrollReveal>
 
@@ -548,9 +570,9 @@ export default function App() {
             </ScrollReveal>
           </div>
         </section>
-        <div className="pb-20 text-center font-serif italic text-l md:text-xl font-extrabold text-primary leading-tight tracking-tight ">
+        <div className="pb-20 text-center text-m md:text-l font-bold text-primary leading-tight tracking-tight ">
           <h1>Rất mong sẽ được gặp you và có tấm ảnh kỷ niệm trong ngày lễ.
-            Đối với cục dzàng không thể đến được, mình hẹn gặp ở dịp khác nhóeeee!!</h1>
+            Tình iu nào không thể đến được, mình hẹn gặp ở dịp khác nhaaaaaaa!!</h1>
         </div>
       </main>
     </div>
