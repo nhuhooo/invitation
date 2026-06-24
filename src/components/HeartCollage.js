@@ -495,7 +495,9 @@ export const HeartCollage = ({
             >
                 <div 
                     ref={containerRef}
-                    className="grid grid-cols-10 gap-0.5 sm:gap-1 md:gap-1.5 w-full relative touch-none select-none"
+                    className={`grid grid-cols-10 gap-0.5 sm:gap-1 md:gap-1.5 w-full relative select-none ${
+                        isAssembled ? "" : "touch-none"
+                    }`}
                     onPointerDown={handlePointerDown}
                     onPointerMove={handlePointerMove}
                     onPointerUp={handlePointerUp}
