@@ -231,7 +231,7 @@ export const HeartCollage = ({
         if (!spaceAudioRef.current) {
             spaceAudioRef.current = new Audio("/space.mp3");
             spaceAudioRef.current.loop = true;
-            spaceAudioRef.current.volume = 0.7; // 70% volume
+            spaceAudioRef.current.volume = 1.0; // 100% volume
         }
         return spaceAudioRef.current;
     };
@@ -597,10 +597,12 @@ export const HeartCollage = ({
                 Hành Trình Kỷ Niệm
             </h2>
             <p className="text-neutral-500 text-center mt-2.5 text-sm px-4 select-none">
-                Ba năm rưỡi khép lại một hành trình dài để nhuhooo trưởng thành. Hơn ba năm ấy là biết bao bài học, thử thách, những lần vấp ngã và cả những khoảnh khắc bứt phá đáng tự hào. Từ những ngày đầu còn nhiều bỡ ngỡ đến khi tự tin bước gần hơn tới ước mơ của mình, mỗi chặng đường đều được tô điểm bằng tình bạn, sự đồng hành của người thân và những kỷ niệm không thể nào quên.
-
-                Thanh xuân dưới mái trường không chỉ là những giờ học, những kỳ thi hay những dự án miệt mài, mà còn là những tiếng cười, những lần cùng nhau cố gắng và những câu chuyện sẽ mãi trở thành một phần ký ức đẹp. Hôm nay, khi nhìn lại, tất cả những khoảnh khắc ấy đều góp phần tạo nên phiên bản tốt hơn của chính mình hôm nay. Hành trình sinh viên khép lại, nhưng những ký ức đẹp và những ước mơ phía trước sẽ mãi tiếp tục đồng hành trên chặng đường mới.          </p>
-
+                Ba năm rưỡi là một hành trình dài, có bài học, có thử thách, có những lần vấp ngã và cả những khoảnh khắc đáng tự hào
+                , mỗi chặng đường đều được tô điểm bằng tình bạn, sự đồng hành của người thân và những kỷ niệm không thể nào quên.
+                Thanh xuân ở UEH đối với mình không chỉ là những giờ học, những kỳ thi hay những dự án miệt mài, mà còn là những tiếng cười
+                , những lần cùng nhau cố gắng và những câu chuyện sẽ mãi trở thành một phần ký ức đẹp. 
+                Hôm nay, khi nhìn lại, tất cả những khoảnh khắc ấy đều góp phần tạo nên phiên bản tốt hơn của chính mình hôm nay. 
+            </p>
             {/* INSTRUCTION STATUS BANNER */}
             <div className="mt-4 px-5 py-2.5 rounded-full text-xs font-extrabold shadow-sm transition-all duration-500 z-10 flex items-center gap-1.5 min-h-[40px] select-none clay-card border border-white">
                 {!isGridVisible ? (
@@ -727,19 +729,12 @@ export const HeartCollage = ({
             {/* Quote line */}
             <div className="text-center mt-2 px-4 italic text-neutral-500 text-xs sm:text-sm select-none">
                 &ldquo;Cùng cảm ơn hôm qua cho chúng ta như hôm nay/
-
                 Cùng cảm ơn cơn say cho nói ra lời thật thà/
-
                 Cùng cảm ơn mưa sa cho nắng lên xanh bao la/
-
                 Để nhắc ta, nhắc ta luôn nhớ/
-
                 Cùng cảm ơn thương đau cho chúng ta thêm thương nhau/
-
                 Cùng cảm ơn chia xa cho khát khao được về nhà/
-
                 Cùng cảm ơn tinh mơ ta thấy ta không bơ vơ/
-
                 Người vẫn luôn, vẫn luôn ở đó&rdquo;
             </div>
 
