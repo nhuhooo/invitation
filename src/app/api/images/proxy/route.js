@@ -16,7 +16,7 @@ export async function GET(request) {
     
     // Using `@vercel/blob` SDK's get() method, which automatically resolves
     // credentials including OIDC (VERCEL_OIDC_TOKEN) when running on Vercel.
-    const blob = await get(imageUrl);
+    const blob = await get(imageUrl, { access: 'private' });
 
     if (!blob) {
       console.error(`DEBUG proxy: Failed to fetch blob from storage: empty result`);
