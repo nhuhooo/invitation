@@ -70,9 +70,9 @@ export default function App() {
   useEffect(() => {
     if (!recipientName) return;
     setTypedGreeting("");
-    const textToType = `Thân gửi: ${recipientName}`;
+    const textToType = `Thân mời: ${recipientName}`;
     let i = 0;
-    
+
     const delayTimeout = setTimeout(() => {
       const interval = setInterval(() => {
         setTypedGreeting(textToType.substring(0, i + 1));
@@ -163,23 +163,23 @@ export default function App() {
     try {
       const ctx = getAudioContext();
       if (!ctx) return;
-      
+
       const now = ctx.currentTime;
-      
+
       // 1. The Pop: Thump/thud của pháo giấy (sử dụng sóng tam giác có tần số giảm dần nhanh)
       const osc = ctx.createOscillator();
       const gainOsc = ctx.createGain();
-      
+
       osc.type = "triangle";
       osc.frequency.setValueAtTime(180, now);
       osc.frequency.exponentialRampToValueAtTime(45, now + 0.08);
-      
+
       gainOsc.gain.setValueAtTime(0.6, now);
       gainOsc.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-      
+
       osc.connect(gainOsc);
       gainOsc.connect(ctx.destination);
-      
+
       // 2. Air Burst: Tiếng rít hơi áp suất trung bình
       const bufferSize = ctx.sampleRate * 0.15; // Buffer 150ms nhiễu trắng
       const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
@@ -187,46 +187,46 @@ export default function App() {
       for (let i = 0; i < bufferSize; i++) {
         data[i] = Math.random() * 2 - 1;
       }
-      
+
       const noiseSource = ctx.createBufferSource();
       noiseSource.buffer = buffer;
-      
+
       const noiseFilter = ctx.createBiquadFilter();
       noiseFilter.type = "bandpass";
       noiseFilter.frequency.setValueAtTime(700, now);
       noiseFilter.Q.setValueAtTime(1.5, now);
-      
+
       const gainNoise = ctx.createGain();
       gainNoise.gain.setValueAtTime(0.35, now);
       gainNoise.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
-      
+
       noiseSource.connect(noiseFilter);
       noiseFilter.connect(gainNoise);
       gainNoise.connect(ctx.destination);
-      
+
       // 3. Confetti Fizz: Tiếng xào xạc của giấy bạc bay lơ lửng tần số cao
       const fizzSource = ctx.createBufferSource();
       fizzSource.buffer = buffer; // tái sử dụng buffer nhiễu trắng
-      
+
       const fizzFilter = ctx.createBiquadFilter();
       fizzFilter.type = "highpass";
       fizzFilter.frequency.setValueAtTime(4000, now);
-      
+
       const gainFizz = ctx.createGain();
       gainFizz.gain.setValueAtTime(0.12, now);
       gainFizz.gain.exponentialRampToValueAtTime(0.001, now + 0.25); // kéo dài hơn để mô phỏng giấy rơi
-      
+
       fizzSource.connect(fizzFilter);
       fizzFilter.connect(gainFizz);
       gainFizz.connect(ctx.destination);
-      
+
       // Khởi chạy đồng bộ tất cả các thành phần âm thanh
       osc.start(now);
       osc.stop(now + 0.08);
-      
+
       noiseSource.start(now);
       noiseSource.stop(now + 0.15);
-      
+
       fizzSource.start(now);
       fizzSource.stop(now + 0.25);
     } catch (e) {
@@ -237,7 +237,7 @@ export default function App() {
   const fireConfetti = async () => {
     try {
       const confetti = (await import("canvas-confetti")).default;
-      
+
       // Pháo giấy ở trung tâm
       playConfettiSound();
       confetti({
@@ -246,7 +246,7 @@ export default function App() {
         origin: { y: 0.8 },
         colors: ["#0d6683", "#89cff0", "#725477", "#fad3fd", "#fed7aa"]
       });
-      
+
       // Pháo giấy góc trái bay lên
       setTimeout(() => {
         playConfettiSound();
@@ -258,7 +258,7 @@ export default function App() {
           colors: ["#0d6683", "#89cff0", "#725477", "#fad3fd"]
         });
       }, 150);
-      
+
       // Pháo giấy góc phải bay lên
       setTimeout(() => {
         playConfettiSound();
@@ -270,7 +270,7 @@ export default function App() {
           colors: ["#0d6683", "#89cff0", "#725477", "#fad3fd"]
         });
       }, 300);
-      
+
     } catch (err) {
       console.error("Failed to load canvas-confetti", err);
     }
@@ -341,7 +341,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f7f9fb] font-sans text-[#191c1e] relative flex flex-col transition-colors duration-300">
+    <div className="min-h-screen font-sans text-[#191c1e] relative flex flex-col transition-colors duration-300">
 
       {/* Đưa thẻ Audio ra ngoài cấu trúc Button để tránh lỗi kẹt ref của trình duyệt */}
       <audio ref={audioRef} loop>
@@ -351,26 +351,22 @@ export default function App() {
       <FloatingDecoration activeTab={activeTab} />
 
       {/* TOP GLASS HEADER */}
-      <header className="sticky top-0 z-40 bg-[rgba(255,255,255,0.8)] backdrop-blur-md border-b border-white select-none">
+      <header className="sticky top-0 z-40 backdrop-blur-md border-b border-white select-none">
         <div className="max-w-7xl mx-auto px-2 sm:px-4 md:px-8 py-3 flex items-center justify-between gap-1">
 
           <div
             onClick={() => scrollToSection("home")}
             className="flex items-center gap-1 cursor-pointer text-primary shrink-0"
           >
-            <span className="font-serif italic font-extrabold text-sm sm:text-xl md:text-2xl tracking-tight select-none">
-              ✨ GRAD_2026
-            </span>
           </div>
 
           <nav className="flex items-center gap-0.5 sm:gap-2 md:gap-4 overflow-x-auto scrollbar-hide shrink">
-            {["HOME", "JOURNEY", "EVENT"].map((tab) => (
+            {["INTRO", "JOURNEY", "EVENT"].map((tab) => (
               <button
                 key={tab}
                 onClick={() => scrollToSection(tab.toLowerCase())}
-                className={`px-1.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[9px] sm:text-xs font-bold tracking-wider sm:tracking-widest transition-all relative cursor-pointer shrink-0 ${
-                  activeTab === tab ? "text-[#0d6683]" : "text-neutral-500 hover:text-[#0d6683]"
-                }`}
+                className={`px-1.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-[9px] sm:text-xs font-bold tracking-wider sm:tracking-widest transition-all relative cursor-pointer shrink-0 ${activeTab === tab ? "text-[#0d6683]" : "text-neutral-500 hover:text-[#0d6683]"
+                  }`}
               >
                 {tab}
                 {activeTab === tab && (
@@ -380,12 +376,13 @@ export default function App() {
             ))}
           </nav>
 
-         <div className="flex items-center gap-1 shrink-0">
+          <div className="flex items-center gap-1 shrink-0">
             <button
               onClick={togglePlayMusic}
-              className={`p-1.5 sm:p-2.5 rounded-full border transition-all hover:scale-110 cursor-pointer ${
-                isPlayingMusic ? "bg-primary text-white border-primary shadow-xs" : "bg-white text-neutral-600 border-neutral-200 hover:bg-neutral-50"
-              }`}
+              className={`p-1.5 sm:p-2.5 rounded-full border border-[#0d6683] transition-all hover:scale-110 cursor-pointer ${isPlayingMusic
+                ? "bg-primary text-white border-[#0d6683] shadow-xs"
+                : "bg-white text-neutral-600 border-neutral-200 hover:bg-neutral-50"
+                }`}
               title={isPlayingMusic ? "Mute music" : "Play warm background theme"}
             >
               {isPlayingMusic ? (
@@ -403,8 +400,8 @@ export default function App() {
         </div>
       </header>
 
-      <main className="flex-grow relative z-10 px-4 md:px-8 max-w-7xl mx-auto w-full space-y-0 py-0">
-        
+      <main className="flex-grow relative z-10 px-2 sm:px-4 md:px-8 max-w-7xl mx-auto w-full space-y-0 py-0">
+
         {/* Section 1: HOME */}
         <section id="home" className="min-h-[calc(100vh-80px)] flex flex-col justify-center scroll-mt-20 py-8">
           <div className="space-y-12">
@@ -419,21 +416,24 @@ export default function App() {
               ) : (
                 <ScrollReveal direction="down" delay={100} duration={800}>
                   <div className="inline-flex items-center gap-1.5 bg-[#bee9ff] text-[#005974] px-4 py-1.5 rounded-full text-xs font-bold tracking-widest shadow-xs">
-                    <PartyPopper className="w-3.5 h-3.5" /> CHÀO MỪNG LỄ TỐT NGHIỆP TRỌNG ĐẠI
+                    <PartyPopper className="w-3.5 h-3.5" /> CHÀO MỪNG LỄ TỐT NGHIỆP
                   </div>
                 </ScrollReveal>
               )}
 
               <ScrollReveal direction="up" delay={200} duration={1000}>
-                <h1 className="text-3xl md:text-5xl font-extrabold text-primary leading-tight tracking-tight">
-                  Luminous Celebration 2026: <br className="hidden md:inline" />
-                  Kiến Tạo Thăng Hoa Dưới Ánh Sáng Tri Thức
+                <h2 className=" italic text-l md:text-2xl font-extrabold text-primary leading-tight tracking-tight">
+                  đến tham dự Lễ Tốt Nghiêp của
+                </h2>
+                <br />
+                <h1 className="font-serif italic text-3xl md:text-5xl font-extrabold text-primary leading-tight tracking-tight">
+                  HỒ NGỌC NHƯ
                 </h1>
               </ScrollReveal>
 
               <ScrollReveal direction="up" delay={300} duration={1000}>
                 <p className="text-neutral-500 text-sm md:text-base max-w-2xl mx-auto leading-relaxed">
-                  Nơi lưu giữ trọn vẹn những hoài bão, nụ cười hạnh phúc, những đồ án đầy tự hào của thế hệ kỹ sư Công nghệ khóa 2022-2026. Hãy để tinh thần mạo hiểm dẫn lối bạn vươn cao!
+                  💌 Sự hiện diện của you sẽ là món quà ý nghĩa nhất cho nhuhooo trong khoảnh khắc đáng nhớ này! 🎓
                 </p>
               </ScrollReveal>
 
@@ -463,13 +463,13 @@ export default function App() {
                     onClick={() => scrollToSection("journey")}
                     className="clay-btn btn-shimmer text-white font-bold px-6 py-3 rounded-full text-xs shadow-md hover:scale-105 active:scale-95 transition-all cursor-pointer"
                   >
-                    Khám Phá Hành Trình Trái Tim ➜
+                    Khám Phá Hành Trình
                   </button>
                   <button
                     onClick={() => scrollToSection("event")}
                     className="px-6 py-3 bg-white hover:bg-neutral-50 text-neutral-700 font-bold border border-neutral-200 rounded-full text-xs shadow-xs hover:scale-105 active:scale-95 transition-all cursor-pointer"
                   >
-                    Thông Tin Lễ Đường & Đón Tiếp
+                    Thông Tin Buổi Lễ & Đón Tiếp
                   </button>
                 </div>
               </ScrollReveal>
@@ -489,15 +489,15 @@ export default function App() {
           <div className="space-y-12">
             <ScrollReveal direction="up" duration={800}>
               <div className="text-center max-w-2xl mx-auto space-y-4 pt-4 select-none">
-                <span 
+                <span
                   onClick={fireConfetti}
                   className="bg-[#fad3fd] text-[#77587c] font-bold px-4 py-1.5 rounded-full text-xs uppercase tracking-widest shadow-xs cursor-pointer hover:scale-105 active:scale-95 transition-all inline-block"
                   title="Nhấp để bắn pháo hoa giấy! 🎉"
                 >
-                  ✨ COMMENCEMENT EXERCISE ✨
+                  ✨ SAVE THE DATE  ✨
                 </span>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-[#0d6683] tracking-tight">
-                  Ngày Trọng Đại Của Chúng Ta
+                  Chúng ta có hẹn vào lúc
                 </h2>
                 <p className="text-neutral-500 text-sm max-w-lg mx-auto leading-relaxed">
                   Tôn vinh sự giao thoa hoàn hảo giữa công nghệ, tư duy sáng tạo dẫn đầu và những nỗ lực học thuật bền bỉ. Đồng hành chung vui cùng khóa 2026!
@@ -507,7 +507,7 @@ export default function App() {
 
             <ScrollReveal direction="zoom" delay={150} duration={900}>
               <div className="max-w-4xl mx-auto w-full">
-                <div className="clay-card rounded-3xl p-6 md:p-8 space-y-6">
+                <div className="clay-card rounded-3xl p-4 sm:p-6 md:p-8 space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="flex gap-4 items-start select-none">
                       <div className="w-12 h-12 bg-sky-100 rounded-full flex items-center justify-center shrink-0">
@@ -518,7 +518,7 @@ export default function App() {
                         <strong className="text-lg md:text-xl font-extrabold text-neutral-800 tracking-tight mt-1 block">
                           {EVENT_DETAILS.date}
                         </strong>
-                        <span className="text-sm text-neutral-500 block mt-1">
+                        <span className="text-xl text-neutral-500 block mt-1">
                           {EVENT_DETAILS.time}
                         </span>
                       </div>
@@ -533,7 +533,7 @@ export default function App() {
                         <strong className="text-base md:text-lg font-extrabold text-neutral-800 block mt-1">
                           {EVENT_DETAILS.venue}
                         </strong>
-                        <span className="text-xs text-neutral-500 leading-relaxed block mt-1">
+                        <span className="text-l text-neutral-500 leading-relaxed block mt-1">
                           {EVENT_DETAILS.address}
                         </span>
                       </div>
@@ -548,6 +548,10 @@ export default function App() {
             </ScrollReveal>
           </div>
         </section>
+        <div className="pb-20 text-center font-serif italic text-l md:text-xl font-extrabold text-primary leading-tight tracking-tight ">
+          <h1>Rất mong sẽ được gặp you và có tấm ảnh kỷ niệm trong ngày lễ.
+            Đối với cục dzàng không thể đến được, mình hẹn gặp ở dịp khác nhóeeee!!</h1>
+        </div>
       </main>
     </div>
   );

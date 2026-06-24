@@ -130,14 +130,66 @@
 /* Staggered entrance animation for Heart Collage */
 .heart-grid-cell {
   opacity: 0;
-  transform: scale(0.85);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: scale(0.3);
   will-change: transform, opacity;
 }
 
 .heart-grid-visible .heart-grid-cell {
-  opacity: 1;
-  transform: scale(1);
+  animation: heart-pop-in 1.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.heart-grid-visible .heart-grid-cell .heart-overlay {
+  animation: heart-overlay-flash 1.2s ease-in-out forwards;
+  animation-delay: inherit;
+}
+
+/* Override animation final state on hover and active states */
+.heart-grid-cell:hover {
+  transform: scale(1.15) !important;
+  z-index: 40 !important;
+  transition: transform 0.2s ease-in-out !important;
+}
+
+.heart-grid-cell:hover .heart-overlay {
+  opacity: 1 !important;
+  transition: opacity 0.2s ease-in-out !important;
+}
+
+@keyframes heart-pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+    z-index: 10;
+  }
+  45% {
+    opacity: 1;
+    transform: scale(1.2); /* Phóng to giống như khi hover */
+    z-index: 30;
+  }
+  75% {
+    transform: scale(1.05);
+    z-index: 20;
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    z-index: 1;
+  }
+}
+
+@keyframes heart-overlay-flash {
+  0% {
+    opacity: 0;
+  }
+  35% {
+    opacity: 1; /* Hiển thị hoàn toàn giống hover */
+  }
+  70% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0; /* Trở về bình thường */
+  }
 }
 
 /* Equalizer Bars Animations for Music playing */

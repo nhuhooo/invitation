@@ -1,38 +1,9 @@
 import React, { useState } from "react";
-import { Calendar, Map, CheckCircle, HelpCircle, GraduationCap, Camera, QrCode } from "lucide-react";
+import { Calendar, Map } from "lucide-react";
 
 export const EventAddons = ({ studentName }) => {
   const [calendarOpen, setCalendarOpen] = useState(false);
   const [mapOpen, setMapOpen] = useState(false);
-
-  // Khai báo lại hàm download file lịch .ics hoàn chỉnh
-  const downloadIcsFile = () => {
-    const icsContent = [
-      "BEGIN:VCALENDAR",
-      "VERSION:2.0",
-      "PRODID:-//Luminous Grad 2026//NONSGML v1.0//EN",
-      "BEGIN:VEVENT",
-      "UID:luminous-graduation-2026@aistudio",
-      "DTSTAMP:20260623T080000Z",
-      "DTSTART:20260624T020000Z", // UTC standard format
-      "DTEND:20260624T050000Z",
-      "SUMMARY:Le Tot Nghiep Luminous 2026 - Class of 2026",
-      "DESCRIPTION:Chuc mung ban da tot nghiep! Hay mang theo ve QR va le phuc day du.",
-      "LOCATION:The Innovation Arena, Cyber District, Building 7, Ho Chi Minh",
-      "END:VEVENT",
-      "END:VCALENDAR"
-    ].join("\n");
-
-    const blob = new Blob([icsContent], { type: "text/calendar;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", "Luminous_Graduation_2026.ics");
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  };
-
   // Khối return PHẢI nằm bên trong hàm EventAddons
   return (
     <div className="space-y-6 select-none relative">
@@ -43,7 +14,7 @@ export const EventAddons = ({ studentName }) => {
           onClick={() => setCalendarOpen(true)}
           className="w-full clay-btn btn-shimmer text-white font-bold py-3.5 rounded-full text-xs shadow-md hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer"
         >
-          <Calendar className="w-4 h-4" /> Lưu Lịch Sự Kiện Vào Google Calendar / Outlook
+          <Calendar className="w-4 h-4" /> Lưu Lịch Sự Kiện Vào Google Calendar 
         </button>
 
         {/* View Campus Map Trigger */}
@@ -51,7 +22,7 @@ export const EventAddons = ({ studentName }) => {
           onClick={() => setMapOpen(true)}
           className="w-full py-3.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 font-bold rounded-full text-xs shadow-xs hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 cursor-pointer border border-neutral-300"
         >
-          <Map className="w-4 h-4" /> Xem Bản Đồ Giảng Đường Lễ Đường
+          <Map className="w-4 h-4" /> Xem Bản Đồ 
         </button>
       </div>
 
@@ -73,12 +44,6 @@ export const EventAddons = ({ studentName }) => {
               </p>
             </div>
             <div className="space-y-2.5">
-              <button
-                onClick={downloadIcsFile}
-                className="w-full py-2.5 bg-neutral-100 hover:bg-neutral-200 text-neutral-700 rounded-full text-xs font-bold transition flex items-center justify-center gap-1.5"
-              >
-                📥 Tải File Lịch .ICS (Tương thích Apple/Outlook)
-              </button>
               <a
                 href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=L%E1%BB%85+T%E1%BB%91t+Nghi%E1%BB%87p+Luminous+2026&dates=20260624T020000Z/20260624T050000Z&details=Ch%C3%BAc+m%E1%BB%ABng+t%C3%A2n+khoa+b%E1%BA%A3n!+H%C3%A3y+mang+theo+v%C3%A9+QR+check-in.&location=The+Innovation+Arena%2C+HCMC"
                 target="_blank"
@@ -108,36 +73,36 @@ export const EventAddons = ({ studentName }) => {
             </div>
 
             {/* Simulated interactive map vector layout */}
-            <div className="bg-sky-50 rounded-2xl p-4 border border-sky-100 border-dashed relative select-none">
+            <div className="bg-sky-50 rounded-2xl p-2 sm:p-4 border border-sky-100 border-dashed relative select-none">
               <div className="absolute top-3 left-3 bg-white/90 px-2 py-0.5 rounded-md text-[9px] font-bold text-primary shadow-xs">
                 ARENA FLOOR PLAN
               </div>
 
               <div className="grid grid-cols-12 gap-1.5 sm:gap-2 h-44 items-stretch mt-4 text-[7.5px] sm:text-[9px] font-bold leading-tight">
                 {/* Building 7 entry */}
-                <div className="col-span-4 bg-primary text-white rounded-lg p-1.5 sm:p-2.5 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
-                  <span>CỔNG CHÍNH / SẢNH ĐÓN</span>
+                <div className="col-span-4 bg-primary text-white rounded-lg p-1 sm:p-2.5 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
+                  <span>CỔNG CHÍNH / ĐÓN TIẾP</span>
                   <span className="text-[6.5px] sm:text-[8px] bg-white/20 px-1 py-0.5 rounded-xs self-start">Gate A1</span>
                 </div>
 
                 <div className="col-span-8 grid grid-rows-2 gap-1.5 sm:gap-2">
                   <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
                     {/* The Hall */}
-                    <div className="bg-purple-100 border border-purple-200 text-purple-700 rounded-lg p-1.5 sm:p-2 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
+                    <div className="bg-purple-100 border border-purple-200 text-purple-700 rounded-lg p-1 sm:p-2 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
                       <span>LỄ ĐƯỜNG TRUNG TÂM</span>
                       <span className="text-[6.5px] sm:text-[8px] font-extrabold text-purple-600">Building 7 Seat BD</span>
                     </div>
 
                     {/* Photo Wall popup */}
-                    <div className="bg-pink-100 border border-pink-200 text-pink-700 rounded-lg p-1.5 sm:p-2 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
+                    <div className="bg-pink-100 border border-pink-200 text-pink-700 rounded-lg p-1 sm:p-2 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
                       <span>GÓC BACKDROP AI</span>
                       <span className="text-[6.5px] sm:text-[8px] text-pink-500 font-extrabold">Mascot & Balloons</span>
                     </div>
                   </div>
 
                   {/* Buffet areas */}
-                  <div className="bg-emerald-100 border border-emerald-200 text-emerald-700 rounded-lg p-1.5 sm:p-2 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
-                    <span>KHU VỰC TIỆC BUFFET NHẸ & GIAO LƯU</span>
+                  <div className="bg-emerald-100 border border-emerald-200 text-emerald-700 rounded-lg p-1 sm:p-2 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
+                    <span>TIỆC BUFFET NHẸ & GIAO LƯU</span>
                     <span className="text-[6px] sm:text-[7px] text-emerald-600">Sảnh Đông (East Wing Garden)</span>
                   </div>
                 </div>
