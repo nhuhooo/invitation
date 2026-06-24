@@ -144,6 +144,8 @@ export const HeartCollage = ({
     const pointerActive = useRef(false);
     const pointerX = useRef(0);
     const pointerY = useRef(0);
+    const startXRef = useRef(0);
+    const startYRef = useRef(0);
     const interactionProgress = useRef(0);
     const hasInteracted = useRef(false);
     const mountTime = useRef(0);
@@ -415,6 +417,9 @@ export const HeartCollage = ({
         const rect = containerRef.current.getBoundingClientRect();
         pointerX.current = e.clientX - rect.left;
         pointerY.current = e.clientY - rect.top;
+        startXRef.current = e.clientX;
+        startYRef.current = e.clientY;
+        interactionProgress.current = 0;
     };
 
     const handlePointerMove = (e) => {
@@ -429,9 +434,13 @@ export const HeartCollage = ({
         if (isAssembled) return;
         pointerActive.current = false;
         
-        // Nếu người dùng chạm/click nhẹ nhưng không xoay ngón tay (tiến trình xoay nhỏ)
-        // thì chuyển sang kích hoạt lốc xoáy tự động 3 giây rồi điền lần lượt
-        if (interactionProgress.current < 35) {
+        const deltaX = e.clientX - startXRef.current;
+        const deltaY = e.clientY - startYRef.current;
+        const dragDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // Nếu người dùng chạm/click nhẹ nhưng không xoay ngón tay (tiến trình xoay nhỏ hoặc khoảng cách di chuyển rất ngắn)
+        // thì chuyển sang kích hoạt lốc xoáy tự động 3 giây rồi điền lần lượt giống cơ chế Auto-fill
+        if (dragDistance < 15 && interactionProgress.current < 45) {
             forceAutoFillTime.current = Date.now();
             hasInteracted.current = false; // reset để cho phép chạy logic auto-swirling
             setAssemblyStatus("swirling");
