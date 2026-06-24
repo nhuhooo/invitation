@@ -416,7 +416,7 @@ export default function App() {
               ) : (
                 <ScrollReveal direction="down" delay={100} duration={800}>
                   <div className="inline-flex items-center gap-1.5 bg-[#bee9ff] text-[#005974] px-4 py-1.5 rounded-full text-xs font-bold tracking-widest shadow-xs">
-                    <PartyPopper className="w-3.5 h-3.5" /> IT'S TIME
+                    <PartyPopper className="w-3.5 h-3.5" /> INVITATION
                   </div>
                 </ScrollReveal>
               )}

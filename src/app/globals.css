@@ -135,11 +135,11 @@
 }
 
 .heart-grid-visible .heart-grid-cell {
-  animation: heart-pop-in 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  animation: heart-pop-in 2.2s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 .heart-grid-visible .heart-grid-cell .heart-overlay {
-  animation: heart-overlay-flash 1.6s ease-in-out forwards;
+  animation: heart-overlay-flash 2.2s ease-in-out forwards;
   animation-delay: inherit;
 }
 
@@ -163,11 +163,11 @@
   }
   45% {
     opacity: 1;
-    transform: scale(1.2); /* Phóng to giống như khi hover */
+    transform: scale(1.10); /* Hơi to -> Giảm từ 1.2 xuống 1.10 */
     z-index: 30;
   }
   75% {
-    transform: scale(1.05);
+    transform: scale(1.03);
     z-index: 20;
   }
   100% {
