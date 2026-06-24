@@ -231,7 +231,7 @@ export const HeartCollage = ({
         if (!spaceAudioRef.current) {
             spaceAudioRef.current = new Audio("/space.mp3");
             spaceAudioRef.current.loop = true;
-            spaceAudioRef.current.volume = 0.5; // 50% volume
+            spaceAudioRef.current.volume = 0.7; // 70% volume
         }
         return spaceAudioRef.current;
     };
