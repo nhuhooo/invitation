@@ -194,9 +194,12 @@ export const HeartCollage = ({
     useEffect(() => {
         const fetchImages = async () => {
             try {
+                console.log("DEBUG client: Fetching /api/images...");
                 const res = await fetch("/api/images");
+                console.log("DEBUG client: Response status:", res.status);
                 if (res.ok) {
                     const data = await res.json();
+                    console.log("DEBUG client: Fetched data:", data);
                     if (Array.isArray(data) && data.length > 0) {
                         // Ensure we have at least 24 images, filling with preset fallbacks if needed
                         const merged = [...data];

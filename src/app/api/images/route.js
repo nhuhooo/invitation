@@ -6,7 +6,9 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     // List all files in the Vercel Blob store
+    console.log("DEBUG: Calling Vercel Blob list()...");
     const { blobs } = await list();
+    console.log(`DEBUG: Vercel Blob list() returned ${blobs ? blobs.length : 0} blobs`);
     
     // Filter to only include common image extensions
     const imageExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.bmp', '.tiff'];
