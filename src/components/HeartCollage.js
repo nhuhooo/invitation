@@ -195,8 +195,8 @@ export const HeartCollage = ({
         const centerY = containerRect.height / 2;
 
         const timeSinceMount = Date.now() - mountTime.current;
-        const isAutoSwirling = !hasInteracted.current && timeSinceMount > 3500;
-        const isAutoLocking = !hasInteracted.current && timeSinceMount > 5000;
+        const isAutoSwirling = !hasInteracted.current && timeSinceMount > 60000;
+        const isAutoLocking = !hasInteracted.current && timeSinceMount > 63000;
 
         let targetX = centerX;
         let targetY = centerY;
@@ -225,7 +225,7 @@ export const HeartCollage = ({
             // State machine transitions
             if (isAutoLocking) {
                 const lockDelay = idx * 100;
-                if (timeSinceMount > 5000 + lockDelay) {
+                if (timeSinceMount > 63000 + lockDelay) {
                     p.status = "locking";
                 }
             } else if (pointerActive.current) {
