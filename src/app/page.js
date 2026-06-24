@@ -131,6 +131,27 @@ export default function App() {
     };
   }, []);
 
+  // Unlock AudioContext on first actual click/touchstart (required for Web Audio API sound synthesis)
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const resumeCtx = () => {
+      const ctx = getAudioContext();
+      if (ctx && ctx.state === "running") {
+        window.removeEventListener("click", resumeCtx);
+        window.removeEventListener("touchstart", resumeCtx);
+      }
+    };
+
+    window.addEventListener("click", resumeCtx);
+    window.addEventListener("touchstart", resumeCtx);
+
+    return () => {
+      window.removeEventListener("click", resumeCtx);
+      window.removeEventListener("touchstart", resumeCtx);
+    };
+  }, []);
+
   // Update countdown to October 1, 2026
   useEffect(() => {
     const targetDate = new Date("2026-10-01T09:00:00").getTime();
