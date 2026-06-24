@@ -148,6 +148,7 @@ export const HeartCollage = ({
     const hasInteracted = useRef(false);
     const mountTime = useRef(0);
     const animationFrameId = useRef(null);
+    const forceAutoFillTime = useRef(null);
 
     useEffect(() => {
         if (typeof window === "undefined") return;
@@ -195,8 +196,13 @@ export const HeartCollage = ({
         const centerY = containerRect.height / 2;
 
         const timeSinceMount = Date.now() - mountTime.current;
-        const isAutoSwirling = !hasInteracted.current && timeSinceMount > 60000;
-        const isAutoLocking = !hasInteracted.current && timeSinceMount > 63000;
+        
+        // Kiểm tra xem chế độ Auto-fill cưỡng bức (click/chạm nhưng không xoay) có đang bật hay không
+        const isForced = forceAutoFillTime.current !== null;
+        const timeForForced = isForced ? (Date.now() - forceAutoFillTime.current) : 0;
+
+        const isAutoSwirling = (!hasInteracted.current && timeSinceMount > 60000) || (isForced && timeForForced > 0);
+        const isAutoLocking = (!hasInteracted.current && timeSinceMount > 63000) || (isForced && timeForForced > 3000);
 
         let targetX = centerX;
         let targetY = centerY;
@@ -225,7 +231,9 @@ export const HeartCollage = ({
             // State machine transitions
             if (isAutoLocking) {
                 const lockDelay = idx * 100;
-                if (timeSinceMount > 63000 + lockDelay) {
+                const limit = isForced ? (3000 + lockDelay) : (63000 + lockDelay);
+                const elapsed = isForced ? timeForForced : timeSinceMount;
+                if (elapsed > limit) {
                     p.status = "locking";
                 }
             } else if (pointerActive.current) {
@@ -234,8 +242,8 @@ export const HeartCollage = ({
                 if (interactionProgress.current > lockThreshold) {
                     p.status = "locking";
                 }
-            } else if (hasInteracted.current && !pointerActive.current) {
-                // Force locking immediately on release
+            } else if (hasInteracted.current && !pointerActive.current && !isForced) {
+                // Force locking immediately on release (chỉ khi không trong chế độ Auto-fill cưỡng bức)
                 p.status = "locking";
             }
 
@@ -398,6 +406,10 @@ export const HeartCollage = ({
 
         pointerActive.current = true;
         hasInteracted.current = true;
+        
+        // Hủy bỏ chế độ Auto-fill cưỡng bức nếu người dùng chạm lại
+        forceAutoFillTime.current = null;
+        
         setAssemblyStatus("swirling");
 
         const rect = containerRef.current.getBoundingClientRect();
@@ -416,8 +428,17 @@ export const HeartCollage = ({
     const handlePointerUp = (e) => {
         if (isAssembled) return;
         pointerActive.current = false;
-        if (assemblyStatus !== "assembled") {
-            setAssemblyStatus("idle");
+        
+        // Nếu người dùng chạm/click nhẹ nhưng không xoay ngón tay (tiến trình xoay nhỏ)
+        // thì chuyển sang kích hoạt lốc xoáy tự động 3 giây rồi điền lần lượt
+        if (interactionProgress.current < 35) {
+            forceAutoFillTime.current = Date.now();
+            hasInteracted.current = false; // reset để cho phép chạy logic auto-swirling
+            setAssemblyStatus("swirling");
+        } else {
+            if (assemblyStatus !== "assembled") {
+                setAssemblyStatus("idle");
+            }
         }
     };
 
