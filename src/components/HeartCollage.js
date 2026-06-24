@@ -747,11 +747,11 @@ export const HeartCollage = ({
             {selectedPhoto && (
                 <div className="fixed inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in animate-duration-300">
                     <div className="bg-white rounded-3xl overflow-hidden max-w-2xl w-full shadow-2xl relative border border-white/20 flex flex-col max-h-[90vh]">
-                        <div className="relative bg-neutral-950 flex items-center justify-center min-h-[250px] flex-1 overflow-hidden">
+                        <div className="relative bg-neutral-950 w-full aspect-[4/3] flex items-center justify-center overflow-hidden">
                             <img 
                                 alt="xem ảnh kỷ niệm" 
                                 src={selectedPhoto.url} 
-                                className="max-w-full max-h-[60vh] object-contain w-auto h-auto block select-none pointer-events-none" 
+                                className="w-full h-full object-contain select-none pointer-events-none" 
                             />
                             <button
                                 onClick={() => setSelectedPhoto(null)}
