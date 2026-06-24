@@ -23,13 +23,7 @@ export async function GET() {
       let caption = "Kỷ niệm đẹp";
       
       const CAPTIONS = [
-        "Lớp học lập trình đầu tiên: Hello World!",
-        "Những đêm thức trắng cùng đồ án tốt nghiệp",
-        "Buổi thuyết trình đầy thử thách nhưng thành công",
-        "Khoảnh khắc bứt phá đầy tự hào của thanh xuân",
-        "UEH thân thương: nơi lưu giữ kỷ niệm tuổi trẻ",
-        "Ngày hội tốt nghiệp rực rỡ sắc màu",
-        "Nụ cười rạng rỡ đánh dấu một chương mới"
+        
       ];
 
       // If the filename is descriptive, turn it into a caption

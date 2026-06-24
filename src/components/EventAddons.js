@@ -82,7 +82,7 @@ export const EventAddons = ({ studentName }) => {
             </div>
 
             <p className="text-xs text-neutral-500 italic mt-4 text-center leading-relaxed">
-              💡 <strong>Gợi ý:</strong> Địa điểm làm lễ nằm sát cổng chính đường Nguyễn Đình Chiểu. Quý khách vui lòng lưu ý các khu vực gửi xe (viền đỏ trên sơ đồ) để thuận tiện di chuyển.
+              💡 <strong>Lưu ý:</strong> Địa điểm làm lễ nằm sát cổng chính đường Nguyễn Đình Chiểu. Mn có thể gửi xe tại các khu vực gửi xe Hồ con rùa hoặc Phúc Long (viền đỏ trên sơ đồ) để thuận tiện di chuyển nhé.
             </p>
           </div>
         </div>
