@@ -441,6 +441,17 @@ export const HeartCollage = ({
         const timer = setTimeout(() => {
             if (!containerRef.current) return;
             const containerRect = containerRef.current.getBoundingClientRect();
+            
+            // Determine standard size from the first rendered placeholder to avoid subpixel grid cell variations
+            let standardSize = 50;
+            for (let i = 0; i < 45; i++) {
+                const el = document.getElementById(`placeholder-${i}`);
+                if (el) {
+                    standardSize = el.getBoundingClientRect().width;
+                    break;
+                }
+            }
+
             const tempParticles = [];
             const tempPics = [];
 
@@ -455,7 +466,7 @@ export const HeartCollage = ({
                             const rect = placeholderEl.getBoundingClientRect();
                             const targetX = rect.left - containerRect.left;
                             const targetY = rect.top - containerRect.top;
-                            const size = rect.width;
+                            const size = standardSize;
 
                             const centerX = containerRect.width / 2;
                             const centerY = containerRect.height / 2;
@@ -476,7 +487,7 @@ export const HeartCollage = ({
                                 status: "floating",
                                 angle,
                                 orbitRadius: radius,
-                                scale: 0.6 + Math.random() * 0.2,
+                                scale: 0.7, // Uniform size for all floating particles
                                 rotation: (Math.random() - 0.5) * 40,
                             });
 
