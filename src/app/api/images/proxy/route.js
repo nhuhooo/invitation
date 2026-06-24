@@ -11,7 +11,16 @@ export async function GET(request) {
   }
 
   try {
-    const token = process.env.BLOB_READ_WRITE_TOKEN;
+    let token = process.env.BLOB_READ_WRITE_TOKEN;
+    if (!token) {
+      // Find any environment variable key starting with BLOB_READ_WRITE_TOKEN (handles store-specific suffixes)
+      const envKey = Object.keys(process.env).find(key => key.startsWith('BLOB_READ_WRITE_TOKEN'));
+      if (envKey) {
+        token = process.env[envKey];
+        console.log(`DEBUG proxy: Found token in environment key: ${envKey}`);
+      }
+    }
+
     if (!token) {
       console.error("DEBUG proxy: BLOB_READ_WRITE_TOKEN is missing in environment variables. Available env keys:", Object.keys(process.env));
       return new NextResponse('Internal configuration error: Missing BLOB_READ_WRITE_TOKEN', { status: 500 });
