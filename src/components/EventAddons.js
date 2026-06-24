@@ -57,62 +57,33 @@ export const EventAddons = ({ studentName }) => {
         </div>
       )}
 
-      {/* MODAL 2: INTERACTIVE CAMPUS MAP */}
+      {/* MODAL 2: MAP AND DIRECTIONS */}
       {mapOpen && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-3xl p-6 max-w-lg w-full shadow-2xl relative border border-neutral-100">
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in animate-duration-300">
+          <div className="bg-white rounded-3xl p-6 max-w-2xl w-full shadow-2xl relative border border-neutral-100 flex flex-col max-h-[90vh]">
             <button
               onClick={() => setMapOpen(false)}
-              className="absolute top-4 right-4 text-neutral-400 hover:text-neutral-600 transition"
+              className="absolute top-4 right-4 bg-neutral-100 hover:bg-neutral-200 text-neutral-500 rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold transition-all cursor-pointer shadow-xs active:scale-95 z-10"
+              aria-label="Đóng"
             >
               ✕
             </button>
             <div className="mb-4">
-              <h3 className="text-sm font-bold text-neutral-800">Bản Đồ Phân Khu Lễ Hội Luminous</h3>
-              <p className="text-xs text-neutral-500">Nhấp vào từng ranh giới để xem hướng dẫn chỉ đường chi tiết.</p>
+              <h3 className="text-base font-bold text-neutral-800">Sơ Đồ Địa Điểm & Chỉ Đường Gửi Xe</h3>
+              <p className="text-xs text-neutral-500 mt-1">Cơ sở A - Đại học Kinh tế TP.HCM (UEH)</p>
             </div>
 
-            {/* Simulated interactive map vector layout */}
-            <div className="bg-sky-50 rounded-2xl p-2 sm:p-4 border border-sky-100 border-dashed relative select-none">
-              <div className="absolute top-3 left-3 bg-white/90 px-2 py-0.5 rounded-md text-[9px] font-bold text-primary shadow-xs">
-                ARENA FLOOR PLAN
-              </div>
-
-              <div className="grid grid-cols-12 gap-1.5 sm:gap-2 h-44 items-stretch mt-4 text-[7.5px] sm:text-[9px] font-bold leading-tight">
-                {/* Building 7 entry */}
-                <div className="col-span-4 bg-primary text-white rounded-lg p-1 sm:p-2.5 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
-                  <span>CỔNG CHÍNH / ĐÓN TIẾP</span>
-                  <span className="text-[6.5px] sm:text-[8px] bg-white/20 px-1 py-0.5 rounded-xs self-start">Gate A1</span>
-                </div>
-
-                <div className="col-span-8 grid grid-rows-2 gap-1.5 sm:gap-2">
-                  <div className="grid grid-cols-2 gap-1.5 sm:gap-2">
-                    {/* The Hall */}
-                    <div className="bg-purple-100 border border-purple-200 text-purple-700 rounded-lg p-1 sm:p-2 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
-                      <span>LỄ ĐƯỜNG TRUNG TÂM</span>
-                      <span className="text-[6.5px] sm:text-[8px] font-extrabold text-purple-600">Building 7 Seat BD</span>
-                    </div>
-
-                    {/* Photo Wall popup */}
-                    <div className="bg-pink-100 border border-pink-200 text-pink-700 rounded-lg p-1 sm:p-2 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
-                      <span>GÓC BACKDROP AI</span>
-                      <span className="text-[6.5px] sm:text-[8px] text-pink-500 font-extrabold">Mascot & Balloons</span>
-                    </div>
-                  </div>
-
-                  {/* Buffet areas */}
-                  <div className="bg-emerald-100 border border-emerald-200 text-emerald-700 rounded-lg p-1 sm:p-2 flex flex-col justify-between hover:scale-105 transition cursor-pointer">
-                    <span>TIỆC BUFFET NHẸ & GIAO LƯU</span>
-                    <span className="text-[6px] sm:text-[7px] text-emerald-600">Sảnh Đông (East Wing Garden)</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Quick helper tip */}
-              <p className="text-[10px] text-neutral-500 italic mt-3 text-center">
-                💡 Khu vực gửi xe nằm cạnh Sảnh Tây. Sách kỷ yếu và quà tặng hoa quả tươi sẽ được phát trực tiếp tại bàn lễ tân khi ra về!
-              </p>
+            <div className="relative rounded-2xl overflow-hidden border border-neutral-100 shadow-inner bg-neutral-50 flex items-center justify-center select-none flex-1 min-h-[250px] max-h-[60vh]">
+              <img 
+                src="/map.png" 
+                alt="Sơ đồ chỉ đường UEH" 
+                className="w-full h-full object-contain pointer-events-none" 
+              />
             </div>
+
+            <p className="text-xs text-neutral-500 italic mt-4 text-center leading-relaxed">
+              💡 <strong>Gợi ý:</strong> Địa điểm làm lễ nằm sát cổng chính đường Nguyễn Đình Chiểu. Quý khách vui lòng lưu ý các khu vực gửi xe (viền đỏ trên sơ đồ) để thuận tiện di chuyển.
+            </p>
           </div>
         </div>
       )}
