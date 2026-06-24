@@ -41,7 +41,7 @@ export async function GET() {
       }
 
       return {
-        url: blob.url,
+        url: `/api/images/proxy?url=${encodeURIComponent(blob.url)}`,
         caption
       };
     });
