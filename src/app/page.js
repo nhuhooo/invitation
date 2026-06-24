@@ -131,7 +131,7 @@ export default function App() {
     };
   }, []);
 
-  // Update countdown to June 24, 2026
+  // Update countdown to October 1, 2026
   useEffect(() => {
     const targetDate = new Date("2026-10-01T09:00:00").getTime();
 
@@ -497,10 +497,10 @@ export default function App() {
                   ✨ SAVE THE DATE  ✨
                 </span>
                 <h2 className="text-3xl md:text-4xl font-extrabold text-[#0d6683] tracking-tight">
-                  Chúng ta có hẹn vào lúc
+                  Cùng đánh dấu một cột mốc đáng nhớ
                 </h2>
                 <p className="text-neutral-500 text-sm max-w-lg mx-auto leading-relaxed">
-                  Tôn vinh sự giao thoa hoàn hảo giữa công nghệ, tư duy sáng tạo dẫn đầu và những nỗ lực học thuật bền bỉ. Đồng hành chung vui cùng khóa 2026!
+                  Hẹn gặp bạn tại lễ tốt nghiệp để cùng chia sẻ niềm vui của cột mốc đáng nhớ này.
                 </p>
               </div>
             </ScrollReveal>
