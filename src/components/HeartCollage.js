@@ -152,12 +152,7 @@ export const HeartCollage = ({
     const animationFrameId = useRef(null);
     const forceAutoFillTime = useRef(null);
 
-    // Audio synthesizer refs
-    const audioCtxRef = useRef(null);
-    const droneOscs = useRef([]);
-    const droneGain = useRef(null);
-    const chimeTimer = useRef(null);
-    const lastShuffleTime = useRef(0);
+
 
     useEffect(() => {
         if (typeof window === "undefined") return;
@@ -181,7 +176,6 @@ export const HeartCollage = ({
             if (animationFrameId.current) {
                 cancelAnimationFrame(animationFrameId.current);
             }
-            stopDrone();
         };
     }, []);
 
@@ -197,141 +191,7 @@ export const HeartCollage = ({
         };
     };
 
-    // Audio synthesizer helpers
-    const getAudioContext = () => {
-        if (typeof window === "undefined") return null;
-        if (!audioCtxRef.current) {
-            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-            if (AudioContextClass) {
-                audioCtxRef.current = new AudioContextClass();
-            }
-        }
-        const ctx = audioCtxRef.current;
-        if (ctx && ctx.state === "suspended") {
-            ctx.resume();
-        }
-        return ctx;
-    };
 
-    const startDrone = (ctx) => {
-        if (!ctx || droneOscs.current.length > 0) return;
-        try {
-            const gainNode = ctx.createGain();
-            // Drone volume set to extremely soft (0.012 - which is ~30% volume)
-            gainNode.gain.setValueAtTime(0.012, ctx.currentTime);
-            gainNode.connect(ctx.destination);
-            droneGain.current = gainNode;
-
-            // Low deep space hum (F2 at 87.3Hz and C3 perfect fifth at 130.8Hz)
-            const osc1 = ctx.createOscillator();
-            osc1.type = "sine";
-            osc1.frequency.setValueAtTime(87.3, ctx.currentTime);
-
-            const osc2 = ctx.createOscillator();
-            osc2.type = "sine";
-            osc2.frequency.setValueAtTime(130.8, ctx.currentTime);
-
-            osc1.connect(gainNode);
-            osc2.connect(gainNode);
-
-            osc1.start();
-            osc2.start();
-
-            droneOscs.current = [osc1, osc2];
-        } catch (e) {
-            console.error("Failed to start drone:", e);
-        }
-    };
-
-    const setDroneVolume = (vol, fadeTime = 0.4) => {
-        if (droneGain.current && audioCtxRef.current) {
-            const ctx = audioCtxRef.current;
-            try {
-                droneGain.current.gain.linearRampToValueAtTime(vol * 0.012, ctx.currentTime + fadeTime);
-            } catch (e) {}
-        }
-    };
-
-    const stopDrone = () => {
-        droneOscs.current.forEach((osc) => {
-            try {
-                osc.stop();
-            } catch (e) {}
-        });
-        droneOscs.current = [];
-        if (chimeTimer.current) {
-            clearInterval(chimeTimer.current);
-            chimeTimer.current = null;
-        }
-    };
-
-    const playMysticChime = (ctx) => {
-        if (!ctx || pointerActive.current || forceAutoFillTime.current !== null || isAssembled) return;
-        const now = ctx.currentTime;
-        // Pentatonic mystical tarot scale: F5, G#5, A#5, C6, D#6
-        const scale = [698.46, 830.61, 932.33, 1046.50, 1244.51];
-        const baseFreq = scale[Math.floor(Math.random() * scale.length)];
-
-        const frequencies = [baseFreq, baseFreq * 1.5, baseFreq * 2];
-        const gains = [0.015, 0.008, 0.005];
-
-        frequencies.forEach((freq, idx) => {
-            try {
-                const osc = ctx.createOscillator();
-                const gain = ctx.createGain();
-
-                osc.type = "sine";
-                osc.frequency.setValueAtTime(freq, now);
-
-                // Mystic chime envelope with 30% volume
-                gain.gain.setValueAtTime(gains[idx] * 0.3, now);
-                gain.gain.exponentialRampToValueAtTime(0.0001, now + 1.8);
-
-                osc.connect(gain);
-                gain.connect(ctx.destination);
-
-                osc.start(now);
-                osc.stop(now + 1.9);
-            } catch (e) {}
-        });
-    };
-
-    const playCardShuffleTick = (ctx) => {
-        if (!ctx) return;
-        const now = ctx.currentTime;
-        try {
-            // Generate a 40ms audio buffer with white noise for card shuffle friction
-            const bufferSize = ctx.sampleRate * 0.04;
-            const buffer = ctx.createBuffer(1, bufferSize, ctx.sampleRate);
-            const data = buffer.getChannelData(0);
-            for (let i = 0; i < bufferSize; i++) {
-                data[i] = Math.random() * 2 - 1;
-            }
-
-            const noiseNode = ctx.createBufferSource();
-            noiseNode.buffer = buffer;
-
-            // Bandpass filter to create card paper-like friction
-            const filterNode = ctx.createBiquadFilter();
-            filterNode.type = "bandpass";
-            const freq = 1100 + Math.random() * 700;
-            filterNode.frequency.setValueAtTime(freq, now);
-            filterNode.Q.setValueAtTime(2.5, now);
-
-            const gainNode = ctx.createGain();
-            // 30% volume scale (soft paper shuffle noise tick)
-            const maxVolume = 0.04 * 0.3; // 0.012
-            gainNode.gain.setValueAtTime(maxVolume, now);
-            gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.04);
-
-            noiseNode.connect(filterNode);
-            filterNode.connect(gainNode);
-            gainNode.connect(ctx.destination);
-
-            noiseNode.start(now);
-            noiseNode.stop(now + 0.05);
-        } catch (e) {}
-    };
 
     // Physics and Animation Loop
     const loop = () => {
@@ -349,37 +209,6 @@ export const HeartCollage = ({
 
         const isAutoSwirling = (!hasInteracted.current && timeSinceMount > 60000) || (isForced && timeForForced > 0);
         const isAutoLocking = (!hasInteracted.current && timeSinceMount > 63000) || (isForced && timeForForced > 3000);
-
-        // Play card shuffle sound tick if active swirling is happening (user dragging or auto swirl)
-        const isSwirlingActive = pointerActive.current || (isAutoSwirling && !isAutoLocking);
-        if (isSwirlingActive) {
-            const nowMs = Date.now();
-            if (nowMs - lastShuffleTime.current > 140) {
-                const ctx = getAudioContext();
-                if (ctx) {
-                    playCardShuffleTick(ctx);
-                    lastShuffleTime.current = nowMs;
-                }
-            }
-        }
-
-        // Ambient drone management (Mystic tarot vibe)
-        if (!isAssembled && Math.random() < 0.02) {
-            const ctx = getAudioContext();
-            if (ctx && ctx.state === "running") {
-                startDrone(ctx);
-                if (isSwirlingActive) {
-                    setDroneVolume(0); // Mute hum during shuffling
-                } else {
-                    setDroneVolume(1); // Restore hum when drifting
-                }
-                if (!chimeTimer.current) {
-                    chimeTimer.current = setInterval(() => {
-                        playMysticChime(ctx);
-                    }, 4000);
-                }
-            }
-        }
 
         let targetX = centerX;
         let targetY = centerY;
@@ -504,7 +333,6 @@ export const HeartCollage = ({
         if (allLocked) {
             setIsAssembled(true);
             setAssemblyStatus("assembled");
-            stopDrone();
         } else {
             animationFrameId.current = requestAnimationFrame(loop);
         }
@@ -596,13 +424,6 @@ export const HeartCollage = ({
         startXRef.current = e.clientX;
         startYRef.current = e.clientY;
         interactionProgress.current = 0;
-
-        // Unlock audio context on interaction
-        const ctx = getAudioContext();
-        if (ctx) {
-            startDrone(ctx);
-            setDroneVolume(0); // Fade out drone during swirling
-        }
     };
 
     const handlePointerMove = (e) => {
@@ -631,8 +452,6 @@ export const HeartCollage = ({
             if (assemblyStatus !== "assembled") {
                 setAssemblyStatus("idle");
             }
-            // Fade drone volume back in
-            setDroneVolume(1);
         }
     };
 
