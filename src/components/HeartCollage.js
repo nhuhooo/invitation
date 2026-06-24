@@ -126,6 +126,33 @@ const HEART_GRID = [
     ],
 ];
 
+const UNIQUE_FALLBACK_IMAGES = [
+    { url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=300&auto=format&fit=crop", caption: "Lễ tốt nghiệp" },
+    { url: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=300&auto=format&fit=crop", caption: "Giảng đường đại học" },
+    { url: "https://images.unsplash.com/photo-1525921429624-479b6c294b4e?q=80&w=300&auto=format&fit=crop", caption: "Khuôn viên trường" },
+    { url: "https://images.unsplash.com/photo-1532649538693-f3a2ec1bf8bd?q=80&w=300&auto=format&fit=crop", caption: "Góc học tập" },
+    { url: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=300&auto=format&fit=crop", caption: "Lên kế hoạch tương lai" },
+    { url: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5c?q=80&w=300&auto=format&fit=crop", caption: "Thư viện sách" },
+    { url: "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=300&auto=format&fit=crop", caption: "Ghi chép bài giảng" },
+    { url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=300&auto=format&fit=crop", caption: "Thảo luận nhóm" },
+    { url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=300&auto=format&fit=crop", caption: "Giờ học thực tế" },
+    { url: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=300&auto=format&fit=crop", caption: "Niềm vui tốt nghiệp" },
+    { url: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=300&auto=format&fit=crop", caption: "Thuyết trình đồ án" },
+    { url: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=300&auto=format&fit=crop", caption: "Kỳ thi thử thách" },
+    { url: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=300&auto=format&fit=crop", caption: "Nghiên cứu khoa học" },
+    { url: "https://images.unsplash.com/photo-1491845338269-4f8321d0c342?q=80&w=300&auto=format&fit=crop", caption: "Tài liệu học tập" },
+    { url: "https://images.unsplash.com/photo-1501290791796-4499b6858362?q=80&w=300&auto=format&fit=crop", caption: "Lưu giữ kỷ niệm" },
+    { url: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?q=80&w=300&auto=format&fit=crop", caption: "Góc làm việc sáng tạo" },
+    { url: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=300&auto=format&fit=crop", caption: "Tập trung cao độ" },
+    { url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=300&auto=format&fit=crop", caption: "Đồng hành cùng bạn" },
+    { url: "https://images.unsplash.com/photo-1521791136364-728a4a39431e?q=80&w=300&auto=format&fit=crop", caption: "Bứt phá giới hạn" },
+    { url: "https://images.unsplash.com/photo-1491309055486-24ae511c15c7?q=80&w=300&auto=format&fit=crop", caption: "Đọc sách thư giãn" },
+    { url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=300&auto=format&fit=crop", caption: "Tình bạn sinh viên" },
+    { url: "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=300&auto=format&fit=crop", caption: "Vượt qua thử thách" },
+    { url: "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?q=80&w=300&auto=format&fit=crop", caption: "Kỷ niệm giảng đường" },
+    { url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=300&auto=format&fit=crop", caption: "Hành trình trưởng thành" }
+];
+
 export const HeartCollage = ({
     customPhotos = [],
 }) => {
@@ -200,11 +227,13 @@ export const HeartCollage = ({
                     const data = await res.json();
                     console.log("DEBUG client: Fetched data:", data);
                     if (Array.isArray(data) && data.length > 0) {
-                        // Ensure we have at least 24 images, recycling the Vercel Blob images themselves if needed
+                        // Use all fetched Vercel Blob images. If we have less than 24,
+                        // pad the remaining slots using unique fallback images to avoid duplication.
                         const merged = [...data];
+                        let fallbackIdx = 0;
                         while (merged.length < 24) {
-                            const recycleIdx = (merged.length - data.length) % data.length;
-                            merged.push(data[recycleIdx]);
+                            merged.push(UNIQUE_FALLBACK_IMAGES[fallbackIdx % UNIQUE_FALLBACK_IMAGES.length]);
+                            fallbackIdx++;
                         }
                         setCollageImages(merged);
                         return;
@@ -214,12 +243,8 @@ export const HeartCollage = ({
                 console.error("Failed to fetch images from Vercel Blob:", err);
             }
 
-            // Fallback to generic placeholder if fetch fails or returns empty
-            const fallback = Array(24).fill(null).map(() => ({
-                url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=300",
-                caption: "Kỷ niệm đẹp"
-            }));
-            setCollageImages(fallback);
+            // Fallback to the 24 unique images list if fetch fails or is empty
+            setCollageImages(UNIQUE_FALLBACK_IMAGES);
         };
 
         fetchImages();
@@ -234,10 +259,7 @@ export const HeartCollage = ({
         if (collageImages.length > 0) {
             return collageImages[adjustedIdx % collageImages.length];
         }
-        return {
-            url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=300",
-            caption: "Kỷ niệm đẹp",
-        };
+        return UNIQUE_FALLBACK_IMAGES[adjustedIdx % UNIQUE_FALLBACK_IMAGES.length];
     };
 
     // Audio players helper
