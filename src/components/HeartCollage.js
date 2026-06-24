@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { PRESET_IMAGES, CAPTIONS } from "../data";
 import { Heart, Sparkles } from "lucide-react";
 
 // Map beautiful Heart structure coordinates for a grid layout.
@@ -201,14 +200,11 @@ export const HeartCollage = ({
                     const data = await res.json();
                     console.log("DEBUG client: Fetched data:", data);
                     if (Array.isArray(data) && data.length > 0) {
-                        // Ensure we have at least 24 images, filling with preset fallbacks if needed
+                        // Ensure we have at least 24 images, recycling the Vercel Blob images themselves if needed
                         const merged = [...data];
                         while (merged.length < 24) {
-                            const presetIdx = (merged.length - data.length) % PRESET_IMAGES.length;
-                            merged.push({
-                                url: PRESET_IMAGES[presetIdx],
-                                caption: CAPTIONS[presetIdx % CAPTIONS.length],
-                            });
+                            const recycleIdx = (merged.length - data.length) % data.length;
+                            merged.push(data[recycleIdx]);
                         }
                         setCollageImages(merged);
                         return;
@@ -218,17 +214,12 @@ export const HeartCollage = ({
                 console.error("Failed to fetch images from Vercel Blob:", err);
             }
 
-            // Fallback to presets if fetch fails or returns empty
-            const fallback = PRESET_IMAGES.map((url, idx) => ({
-                url,
-                caption: CAPTIONS[idx % CAPTIONS.length],
+            // Fallback to generic placeholder if fetch fails or returns empty
+            const fallback = Array(24).fill(null).map(() => ({
+                url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=300",
+                caption: "Kỷ niệm đẹp"
             }));
-            const finalFallback = [...fallback];
-            while (finalFallback.length < 24) {
-                const idx = finalFallback.length % fallback.length;
-                finalFallback.push(fallback[idx]);
-            }
-            setCollageImages(finalFallback);
+            setCollageImages(fallback);
         };
 
         fetchImages();
@@ -243,10 +234,9 @@ export const HeartCollage = ({
         if (collageImages.length > 0) {
             return collageImages[adjustedIdx % collageImages.length];
         }
-        const presetIdx = adjustedIdx % PRESET_IMAGES.length;
         return {
-            url: PRESET_IMAGES[presetIdx],
-            caption: CAPTIONS[presetIdx % CAPTIONS.length],
+            url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&q=80&w=300",
+            caption: "Kỷ niệm đẹp",
         };
     };
 
