@@ -152,12 +152,6 @@ export const HeartCollage = ({
     const animationFrameId = useRef(null);
     const forceAutoFillTime = useRef(null);
 
-    // Audio elements refs
-    const spaceAudioRef = useRef(null);
-    const paperAudioRef = useRef(null);
-
-
-
     useEffect(() => {
         if (typeof window === "undefined") return;
         const observer = new IntersectionObserver(
@@ -180,14 +174,6 @@ export const HeartCollage = ({
             if (animationFrameId.current) {
                 cancelAnimationFrame(animationFrameId.current);
             }
-            if (spaceAudioRef.current) {
-                spaceAudioRef.current.pause();
-                spaceAudioRef.current = null;
-            }
-            if (paperAudioRef.current) {
-                paperAudioRef.current.pause();
-                paperAudioRef.current = null;
-            }
         };
     }, []);
 
@@ -201,35 +187,6 @@ export const HeartCollage = ({
             url: PRESET_IMAGES[presetIdx],
             caption: CAPTIONS[presetIdx % CAPTIONS.length],
         };
-    };
-
-
-
-    // Audio players helper
-    const getSpaceAudio = () => {
-        if (typeof window === "undefined") return null;
-        if (!spaceAudioRef.current) {
-            spaceAudioRef.current = new Audio("/space.mp3");
-            spaceAudioRef.current.loop = true;
-            spaceAudioRef.current.volume = 0.5; // 50% volume
-        }
-        return spaceAudioRef.current;
-    };
-
-    const getPaperAudio = () => {
-        if (typeof window === "undefined") return null;
-        if (!paperAudioRef.current) {
-            paperAudioRef.current = new Audio("/paper.mp3");
-            paperAudioRef.current.loop = true;
-            paperAudioRef.current.volume = 0.5; // 50% volume
-        }
-        return paperAudioRef.current;
-    };
-
-    const playAudioSafely = (audioEl) => {
-        if (audioEl) {
-            audioEl.play().catch(() => {});
-        }
     };
 
     // Physics and Animation Loop
@@ -246,35 +203,8 @@ export const HeartCollage = ({
         const isForced = forceAutoFillTime.current !== null;
         const timeForForced = isForced ? (Date.now() - forceAutoFillTime.current) : 0;
 
-        const isAutoSwirling = (!hasInteracted.current && timeSinceMount > 60000) || (isForced && timeForForced > 0);
-        const isAutoLocking = (!hasInteracted.current && timeSinceMount > 63000) || (isForced && timeForForced > 3000);
-
-        // Sound management based on swirling/filling state
-        if (!isAssembled) {
-            const spaceAudio = getSpaceAudio();
-            const paperAudio = getPaperAudio();
-
-            // Swirling or filling is active (either pointer active or auto-fill is running)
-            const isSwirlingOrLocking = pointerActive.current || isAutoSwirling || isAutoLocking;
-
-            if (isSwirlingOrLocking) {
-                // Play paper.mp3, pause space.mp3
-                if (spaceAudio && !spaceAudio.paused) {
-                    spaceAudio.pause();
-                }
-                if (paperAudio && paperAudio.paused) {
-                    playAudioSafely(paperAudio);
-                }
-            } else {
-                // Play space.mp3, pause paper.mp3
-                if (paperAudio && !paperAudio.paused) {
-                    paperAudio.pause();
-                }
-                if (spaceAudio && spaceAudio.paused) {
-                    playAudioSafely(spaceAudio);
-                }
-            }
-        }
+        const isAutoSwirling = (!hasInteracted.current && timeSinceMount > 20000) || (isForced && timeForForced > 0);
+        const isAutoLocking = (!hasInteracted.current && timeSinceMount > 22000) || (isForced && timeForForced > 2000);
 
         let targetX = centerX;
         let targetY = centerY;
@@ -303,7 +233,7 @@ export const HeartCollage = ({
             // State machine transitions
             if (isAutoLocking) {
                 const lockDelay = idx * 100;
-                const limit = isForced ? (3000 + lockDelay) : (63000 + lockDelay);
+                const limit = isForced ? (2000 + lockDelay) : (22000 + lockDelay);
                 const elapsed = isForced ? timeForForced : timeSinceMount;
                 if (elapsed > limit) {
                     p.status = "locking";
@@ -399,16 +329,6 @@ export const HeartCollage = ({
         if (allLocked) {
             setIsAssembled(true);
             setAssemblyStatus("assembled");
-            
-            // Stop and clean up audio players on complete
-            if (spaceAudioRef.current) {
-                spaceAudioRef.current.pause();
-                spaceAudioRef.current = null;
-            }
-            if (paperAudioRef.current) {
-                paperAudioRef.current.pause();
-                paperAudioRef.current = null;
-            }
         } else {
             animationFrameId.current = requestAnimationFrame(loop);
         }
@@ -472,10 +392,6 @@ export const HeartCollage = ({
             setParticlesData(tempPics);
             mountTime.current = Date.now();
             animationFrameId.current = requestAnimationFrame(loop);
-
-            // Pre-play space.mp3 passively as they scroll to the collage
-            const spaceAudio = getSpaceAudio();
-            playAudioSafely(spaceAudio);
         }, 200);
 
         return () => {
@@ -504,12 +420,6 @@ export const HeartCollage = ({
         startXRef.current = e.clientX;
         startYRef.current = e.clientY;
         interactionProgress.current = 0;
-
-        // Trigger paper.mp3, pause space.mp3 on pointer interaction
-        const spaceAudio = getSpaceAudio();
-        const paperAudio = getPaperAudio();
-        playAudioSafely(paperAudio);
-        if (spaceAudio) spaceAudio.pause();
     };
 
     const handlePointerMove = (e) => {
@@ -534,19 +444,10 @@ export const HeartCollage = ({
             forceAutoFillTime.current = Date.now();
             hasInteracted.current = false; // reset để cho phép chạy logic auto-swirling
             setAssemblyStatus("swirling");
-
-            // Play paper.mp3 immediately for auto-fill swirl
-            const paperAudio = getPaperAudio();
-            playAudioSafely(paperAudio);
-            if (spaceAudioRef.current) spaceAudioRef.current.pause();
         } else {
             if (assemblyStatus !== "assembled") {
                 setAssemblyStatus("idle");
             }
-            // Resume space.mp3 drifting sound
-            const spaceAudio = getSpaceAudio();
-            playAudioSafely(spaceAudio);
-            if (paperAudioRef.current) paperAudioRef.current.pause();
         }
     };
 
@@ -578,7 +479,7 @@ export const HeartCollage = ({
                     </span>
                 ) : assemblyStatus === "swirling" ? (
                     <span className="text-pink-500 animate-pulse flex items-center gap-1">
-                        🌀 Đang kết nối vũ trụ kỉ niệm... xoay tròn để lấp đầy!
+                        🌀 Đang kết nối vũ trụ kỷ niệm... xoay tròn để lấp đầy!
                     </span>
                 ) : (
                     <span className="text-emerald-600 font-bold flex items-center gap-1">
