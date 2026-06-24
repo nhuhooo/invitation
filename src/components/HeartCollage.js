@@ -50,38 +50,38 @@ const HEART_GRID = [
     [
         { type: "image", index: 22 },
         { type: "image", index: 23 },
-        { type: "image", index: 10 }, // recycling gracefully
+        { type: "image", index: 24 },
         { type: "badge" }, // spans columns
         { type: "badge" },
         { type: "badge" },
         { type: "badge" },
-        { type: "image", index: 8 },
-        { type: "image", index: 12 },
-        { type: "image", index: 1 },
+        { type: "image", index: 25 },
+        { type: "image", index: 26 },
+        { type: "image", index: 27 },
     ],
     // Row 5 (Central Badge continues)
     [
         { type: "blank" },
-        { type: "image", index: 9 },
-        { type: "image", index: 14 },
+        { type: "image", index: 28 },
+        { type: "image", index: 29 },
         { type: "badge" }, // badge span
         { type: "badge" },
         { type: "badge" },
         { type: "badge" },
-        { type: "image", index: 7 },
-        { type: "image", index: 15 },
+        { type: "image", index: 30 },
+        { type: "image", index: 31 },
         { type: "blank" },
     ],
     // Row 6
     [
         { type: "blank" },
         { type: "blank" },
-        { type: "image", index: 3 },
-        { type: "image", index: 16 },
-        { type: "image", index: 5 },
-        { type: "image", index: 13 },
-        { type: "image", index: 19 },
-        { type: "image", index: 4 },
+        { type: "image", index: 32 },
+        { type: "image", index: 33 },
+        { type: "image", index: 34 },
+        { type: "image", index: 35 },
+        { type: "image", index: 36 },
+        { type: "image", index: 37 },
         { type: "blank" },
         { type: "blank" },
     ],
@@ -90,10 +90,10 @@ const HEART_GRID = [
         { type: "blank" },
         { type: "blank" },
         { type: "blank" },
-        { type: "image", index: 11 },
-        { type: "image", index: 6 },
-        { type: "image", index: 18 },
-        { type: "image", index: 2 },
+        { type: "image", index: 38 },
+        { type: "image", index: 39 },
+        { type: "image", index: 40 },
+        { type: "image", index: 41 },
         { type: "blank" },
         { type: "blank" },
         { type: "blank" },
@@ -104,8 +104,8 @@ const HEART_GRID = [
         { type: "blank" },
         { type: "blank" },
         { type: "blank" },
-        { type: "image", index: 20 },
-        { type: "image", index: 22 },
+        { type: "image", index: 42 },
+        { type: "image", index: 43 },
         { type: "blank" },
         { type: "blank" },
         { type: "blank" },
@@ -118,7 +118,7 @@ const HEART_GRID = [
         { type: "blank" },
         { type: "blank" },
         { type: "blank" },
-        { type: "image", index: 0 },
+        { type: "image", index: 44 },
         { type: "blank" },
         { type: "blank" },
         { type: "blank" },
@@ -150,7 +150,28 @@ const UNIQUE_FALLBACK_IMAGES = [
     { url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=300&auto=format&fit=crop", caption: "Tình bạn sinh viên" },
     { url: "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=300&auto=format&fit=crop", caption: "Vượt qua thử thách" },
     { url: "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?q=80&w=300&auto=format&fit=crop", caption: "Kỷ niệm giảng đường" },
-    { url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=300&auto=format&fit=crop", caption: "Hành trình trưởng thành" }
+    { url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=300&auto=format&fit=crop", caption: "Hành trình trưởng thành" },
+    { url: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=300&auto=format&fit=crop", caption: "Bài tập miệt mài" },
+    { url: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=300&auto=format&fit=crop", caption: "Kệ thư viện cổ kính" },
+    { url: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=300&auto=format&fit=crop", caption: "Lớp học đầy cảm hứng" },
+    { url: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=300&auto=format&fit=crop", caption: "Tri thức rộng mở" },
+    { url: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=300&auto=format&fit=crop", caption: "Phút nghỉ ngơi đọc sách" },
+    { url: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?q=80&w=300&auto=format&fit=crop", caption: "Sáng tạo bài tập lớn" },
+    { url: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=300&auto=format&fit=crop", caption: "Mở rộng tri thức" },
+    { url: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?q=80&w=300&auto=format&fit=crop", caption: "Thời gian ôn luyện" },
+    { url: "https://images.unsplash.com/photo-1447069387593-a5de0862481e?q=80&w=300&auto=format&fit=crop", caption: "Tra cứu học thuật" },
+    { url: "https://images.unsplash.com/photo-1497005367887-21f1d1573ec4?q=80&w=300&auto=format&fit=crop", caption: "Mũ tốt nghiệp tung bay" },
+    { url: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=300&auto=format&fit=crop", caption: "Lắng nghe bài giảng" },
+    { url: "https://images.unsplash.com/photo-1580537659444-1297eb700204?q=80&w=300&auto=format&fit=crop", caption: "Nhận bằng tốt nghiệp" },
+    { url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=300&auto=format&fit=crop", caption: "Chia sẻ ý tưởng" },
+    { url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=300&auto=format&fit=crop", caption: "Làm việc nhóm năng lượng" },
+    { url: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=300&auto=format&fit=crop", caption: "Tài liệu số hóa" },
+    { url: "https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=300&auto=format&fit=crop", caption: "Nhóm tự học tích cực" },
+    { url: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=300&auto=format&fit=crop", caption: "Kế hoạch nghiên cứu" },
+    { url: "https://images.unsplash.com/photo-1548449112-96a38a643324?q=80&w=300&auto=format&fit=crop", caption: "Khoảnh khắc vỡ òa tốt nghiệp" },
+    { url: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=300&auto=format&fit=crop", caption: "Trao đổi cùng cố vấn" },
+    { url: "https://images.unsplash.com/photo-1560785496-3c9d2787718d?q=80&w=300&auto=format&fit=crop", caption: "Bàn học ngăn nắp" },
+    { url: "https://images.unsplash.com/photo-1571260899304-425fea4c86f3?q=80&w=300&auto=format&fit=crop", caption: "Đọc sách trong thư viện lớn" }
 ];
 
 export const HeartCollage = ({
@@ -227,11 +248,11 @@ export const HeartCollage = ({
                     const data = await res.json();
                     console.log("DEBUG client: Fetched data:", data);
                     if (Array.isArray(data) && data.length > 0) {
-                        // Use all fetched Vercel Blob images. If we have less than 24,
+                        // Use all fetched Vercel Blob images. If we have less than 45,
                         // pad the remaining slots using unique fallback images to avoid duplication.
                         const merged = [...data];
                         let fallbackIdx = 0;
-                        while (merged.length < 24) {
+                        while (merged.length < 45) {
                             merged.push(UNIQUE_FALLBACK_IMAGES[fallbackIdx % UNIQUE_FALLBACK_IMAGES.length]);
                             fallbackIdx++;
                         }
@@ -243,7 +264,7 @@ export const HeartCollage = ({
                 console.error("Failed to fetch images from Vercel Blob:", err);
             }
 
-            // Fallback to the 24 unique images list if fetch fails or is empty
+            // Fallback to the 45 unique images list if fetch fails or is empty
             setCollageImages(UNIQUE_FALLBACK_IMAGES);
         };
 
