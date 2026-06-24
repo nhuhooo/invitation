@@ -129,8 +129,6 @@ const HEART_GRID = [
 
 export const HeartCollage = ({
     customPhotos = [],
-    onAddPhoto,
-    openCertificate,
 }) => {
     const [selectedPhoto, setSelectedPhoto] = useState(null);
     const [customUrl, setCustomUrl] = useState("");
@@ -221,7 +219,7 @@ export const HeartCollage = ({
                                             key="heart-badge"
                                             className="col-span-4 row-span-2 flex items-center justify-center z-10 p-0.5 select-none heart-grid-cell"
                                             style={{
-                                                animationDelay: `${12 * 120}ms`,
+                                                animationDelay: `${12 * 200}ms`,
                                             }}
                                         >
                                             <div className="clay-card rounded-md sm:rounded-2xl border border-white/60 p-0.5 sm:p-2 text-center shadow-lg transform hover:scale-105 transition duration-300 w-full h-full flex flex-col justify-center items-center">
@@ -244,7 +242,7 @@ export const HeartCollage = ({
                                     onClick={() => setSelectedPhoto(photo)}
                                     className="aspect-square group relative rounded-lg overflow-hidden cursor-pointer shadow-xs border border-white hover:scale-110 active:scale-95 hover:z-20 transition duration-300 heart-grid-cell"
                                     style={{
-                                        animationDelay: `${currentIdx * 120}ms`,
+                                        animationDelay: `${currentIdx * 200}ms`,
                                     }}
                                 >
                                     <img
