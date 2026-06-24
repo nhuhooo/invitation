@@ -14,7 +14,7 @@ export async function GET(request) {
     const token = process.env.BLOB_READ_WRITE_TOKEN;
     if (!token) {
       console.error("DEBUG proxy: BLOB_READ_WRITE_TOKEN is missing in environment variables");
-      return new NextResponse('Internal configuration error: Missing token', { status: 500 });
+      return new NextResponse('Internal configuration error: Missing BLOB_READ_WRITE_TOKEN', { status: 500 });
     }
 
     console.log(`DEBUG proxy: Fetching private blob from URL: ${imageUrl}`);
@@ -25,14 +25,18 @@ export async function GET(request) {
     });
 
     if (!response.ok) {
-      console.error(`DEBUG proxy: Failed to fetch from storage: ${response.status} ${response.statusText}`);
-      return new NextResponse(`Failed to fetch from storage: ${response.statusText}`, { status: response.status });
+      const errorText = await response.text().catch(() => 'No body');
+      console.error(`DEBUG proxy: Failed to fetch from storage: ${response.status} ${response.statusText} - Details: ${errorText}`);
+      return new NextResponse(`Failed to fetch from storage: ${response.status} ${response.statusText} - Details: ${errorText}`, { status: 500 });
     }
 
     const contentType = response.headers.get('content-type') || 'application/octet-stream';
-    const body = response.body;
+    
+    // Read response as array buffer and convert to Buffer to avoid streaming compatibility issues
+    const arrayBuffer = await response.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
 
-    return new NextResponse(body, {
+    return new NextResponse(buffer, {
       headers: {
         'Content-Type': contentType,
         'Cache-Control': 'public, max-age=31536000, immutable',
@@ -41,6 +45,6 @@ export async function GET(request) {
     });
   } catch (error) {
     console.error("DEBUG proxy: Error proxying image:", error);
-    return new NextResponse("Internal Server Error", { status: 500 });
+    return new NextResponse(`Internal Server Error: ${error.message}\n${error.stack}`, { status: 500 });
   }
 }
