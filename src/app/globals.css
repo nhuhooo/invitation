@@ -158,16 +158,16 @@
 @keyframes heart-pop-in {
   0% {
     opacity: 0;
-    transform: scale(0.3);
+    transform: scale(0.2);
     z-index: 10;
   }
   45% {
     opacity: 1;
-    transform: scale(1.10); /* Hơi to -> Giảm từ 1.2 xuống 1.10 */
+    transform: scale(1.05); /* Hơi to -> Giảm từ 1.2 xuống 1.10 */
     z-index: 30;
   }
   75% {
-    transform: scale(1.03);
+    transform: scale(1.02);
     z-index: 20;
   }
   100% {
