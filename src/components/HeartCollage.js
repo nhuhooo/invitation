@@ -126,54 +126,6 @@ const HEART_GRID = [
     ],
 ];
 
-const UNIQUE_FALLBACK_IMAGES = [
-    { url: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=300&auto=format&fit=crop", caption: "Lễ tốt nghiệp" },
-    { url: "https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=300&auto=format&fit=crop", caption: "Giảng đường đại học" },
-    { url: "https://images.unsplash.com/photo-1525921429624-479b6c294b4e?q=80&w=300&auto=format&fit=crop", caption: "Khuôn viên trường" },
-    { url: "https://images.unsplash.com/photo-1532649538693-f3a2ec1bf8bd?q=80&w=300&auto=format&fit=crop", caption: "Góc học tập" },
-    { url: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?q=80&w=300&auto=format&fit=crop", caption: "Lên kế hoạch tương lai" },
-    { url: "https://images.unsplash.com/photo-1498243691581-b145c3f54a5c?q=80&w=300&auto=format&fit=crop", caption: "Thư viện sách" },
-    { url: "https://images.unsplash.com/photo-1517842645767-c639042777db?q=80&w=300&auto=format&fit=crop", caption: "Ghi chép bài giảng" },
-    { url: "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=300&auto=format&fit=crop", caption: "Thảo luận nhóm" },
-    { url: "https://images.unsplash.com/photo-1524178232363-1fb2b075b655?q=80&w=300&auto=format&fit=crop", caption: "Giờ học thực tế" },
-    { url: "https://images.unsplash.com/photo-1515187029135-18ee286d815b?q=80&w=300&auto=format&fit=crop", caption: "Niềm vui tốt nghiệp" },
-    { url: "https://images.unsplash.com/photo-1427504494785-3a9ca7044f45?q=80&w=300&auto=format&fit=crop", caption: "Thuyết trình đồ án" },
-    { url: "https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=300&auto=format&fit=crop", caption: "Kỳ thi thử thách" },
-    { url: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=300&auto=format&fit=crop", caption: "Nghiên cứu khoa học" },
-    { url: "https://images.unsplash.com/photo-1491845338269-4f8321d0c342?q=80&w=300&auto=format&fit=crop", caption: "Tài liệu học tập" },
-    { url: "https://images.unsplash.com/photo-1501290791796-4499b6858362?q=80&w=300&auto=format&fit=crop", caption: "Lưu giữ kỷ niệm" },
-    { url: "https://images.unsplash.com/photo-1488190211105-8b0e65b80b4e?q=80&w=300&auto=format&fit=crop", caption: "Góc làm việc sáng tạo" },
-    { url: "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?q=80&w=300&auto=format&fit=crop", caption: "Tập trung cao độ" },
-    { url: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=300&auto=format&fit=crop", caption: "Đồng hành cùng bạn" },
-    { url: "https://images.unsplash.com/photo-1521791136364-728a4a39431e?q=80&w=300&auto=format&fit=crop", caption: "Bứt phá giới hạn" },
-    { url: "https://images.unsplash.com/photo-1491309055486-24ae511c15c7?q=80&w=300&auto=format&fit=crop", caption: "Đọc sách thư giãn" },
-    { url: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?q=80&w=300&auto=format&fit=crop", caption: "Tình bạn sinh viên" },
-    { url: "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=300&auto=format&fit=crop", caption: "Vượt qua thử thách" },
-    { url: "https://images.unsplash.com/photo-1510070112810-d4e9a46d9e91?q=80&w=300&auto=format&fit=crop", caption: "Kỷ niệm giảng đường" },
-    { url: "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=300&auto=format&fit=crop", caption: "Hành trình trưởng thành" },
-    { url: "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?q=80&w=300&auto=format&fit=crop", caption: "Bài tập miệt mài" },
-    { url: "https://images.unsplash.com/photo-1497633762265-9d179a990aa6?q=80&w=300&auto=format&fit=crop", caption: "Kệ thư viện cổ kính" },
-    { url: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=300&auto=format&fit=crop", caption: "Lớp học đầy cảm hứng" },
-    { url: "https://images.unsplash.com/photo-1524995997946-a1c2e315a42f?q=80&w=300&auto=format&fit=crop", caption: "Tri thức rộng mở" },
-    { url: "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?q=80&w=300&auto=format&fit=crop", caption: "Phút nghỉ ngơi đọc sách" },
-    { url: "https://images.unsplash.com/photo-1513542789411-b6a5d4f31634?q=80&w=300&auto=format&fit=crop", caption: "Sáng tạo bài tập lớn" },
-    { url: "https://images.unsplash.com/photo-1516979187457-637abb4f9353?q=80&w=300&auto=format&fit=crop", caption: "Mở rộng tri thức" },
-    { url: "https://images.unsplash.com/photo-1506880018603-83d5b814b5a6?q=80&w=300&auto=format&fit=crop", caption: "Thời gian ôn luyện" },
-    { url: "https://images.unsplash.com/photo-1447069387593-a5de0862481e?q=80&w=300&auto=format&fit=crop", caption: "Tra cứu học thuật" },
-    { url: "https://images.unsplash.com/photo-1497005367887-21f1d1573ec4?q=80&w=300&auto=format&fit=crop", caption: "Mũ tốt nghiệp tung bay" },
-    { url: "https://images.unsplash.com/photo-1529070538774-1843cb3265df?q=80&w=300&auto=format&fit=crop", caption: "Lắng nghe bài giảng" },
-    { url: "https://images.unsplash.com/photo-1580537659444-1297eb700204?q=80&w=300&auto=format&fit=crop", caption: "Nhận bằng tốt nghiệp" },
-    { url: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=300&auto=format&fit=crop", caption: "Chia sẻ ý tưởng" },
-    { url: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=300&auto=format&fit=crop", caption: "Làm việc nhóm năng lượng" },
-    { url: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=300&auto=format&fit=crop", caption: "Tài liệu số hóa" },
-    { url: "https://images.unsplash.com/photo-1577896851231-70ef18881754?q=80&w=300&auto=format&fit=crop", caption: "Nhóm tự học tích cực" },
-    { url: "https://images.unsplash.com/photo-1501504905252-473c47e087f8?q=80&w=300&auto=format&fit=crop", caption: "Kế hoạch nghiên cứu" },
-    { url: "https://images.unsplash.com/photo-1548449112-96a38a643324?q=80&w=300&auto=format&fit=crop", caption: "Khoảnh khắc vỡ òa tốt nghiệp" },
-    { url: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=300&auto=format&fit=crop", caption: "Trao đổi cùng cố vấn" },
-    { url: "https://images.unsplash.com/photo-1560785496-3c9d2787718d?q=80&w=300&auto=format&fit=crop", caption: "Bàn học ngăn nắp" },
-    { url: "https://images.unsplash.com/photo-1571260899304-425fea4c86f3?q=80&w=300&auto=format&fit=crop", caption: "Đọc sách trong thư viện lớn" }
-];
-
 export const HeartCollage = ({
     customPhotos = [],
 }) => {
@@ -247,25 +199,15 @@ export const HeartCollage = ({
                 if (res.ok) {
                     const data = await res.json();
                     console.log("DEBUG client: Fetched data:", data);
-                    if (Array.isArray(data) && data.length > 0) {
-                        // Use all fetched Vercel Blob images. If we have less than 45,
-                        // pad the remaining slots using unique fallback images to avoid duplication.
-                        const merged = [...data];
-                        let fallbackIdx = 0;
-                        while (merged.length < 45) {
-                            merged.push(UNIQUE_FALLBACK_IMAGES[fallbackIdx % UNIQUE_FALLBACK_IMAGES.length]);
-                            fallbackIdx++;
-                        }
-                        setCollageImages(merged);
+                    if (Array.isArray(data)) {
+                        setCollageImages(data);
                         return;
                     }
                 }
             } catch (err) {
                 console.error("Failed to fetch images from Vercel Blob:", err);
             }
-
-            // Fallback to the 45 unique images list if fetch fails or is empty
-            setCollageImages(UNIQUE_FALLBACK_IMAGES);
+            setCollageImages([]);
         };
 
         fetchImages();
@@ -277,10 +219,10 @@ export const HeartCollage = ({
             return customPhotos[gridIdx];
         }
         const adjustedIdx = gridIdx - customPhotos.length;
-        if (collageImages.length > 0) {
-            return collageImages[adjustedIdx % collageImages.length];
+        if (collageImages.length > 0 && adjustedIdx < collageImages.length) {
+            return collageImages[adjustedIdx];
         }
-        return UNIQUE_FALLBACK_IMAGES[adjustedIdx % UNIQUE_FALLBACK_IMAGES.length];
+        return null;
     };
 
     // Audio players helper
@@ -417,7 +359,7 @@ export const HeartCollage = ({
                     p.status = "locked";
 
                     // Show target grid image with popup transition
-                    const cellImg = document.getElementById(`cell-img-${idx}`);
+                    const cellImg = document.getElementById(`cell-img-${p.gridIdx}`);
                     if (cellImg) {
                         cellImg.classList.remove("opacity-0", "scale-75");
                         cellImg.classList.add("opacity-100", "scale-100", "duration-500", "ease-out");
@@ -509,7 +451,7 @@ export const HeartCollage = ({
                         const currentIdx = imgIdx++;
                         const photo = getPhotoForIndex(currentIdx);
                         const placeholderEl = document.getElementById(`placeholder-${currentIdx}`);
-                        if (placeholderEl) {
+                        if (placeholderEl && photo) {
                             const rect = placeholderEl.getBoundingClientRect();
                             const targetX = rect.left - containerRect.left;
                             const targetY = rect.top - containerRect.top;
@@ -523,6 +465,7 @@ export const HeartCollage = ({
                             const startY = centerY + Math.sin(angle) * radius - size / 2;
 
                             tempParticles.push({
+                                gridIdx: currentIdx,
                                 x: startX,
                                 y: startY,
                                 vx: (Math.random() - 0.5) * 2.5,
@@ -715,28 +658,30 @@ export const HeartCollage = ({
                                 <div
                                     key={`cell-${currentIdx}`}
                                     id={`placeholder-${currentIdx}`}
-                                    onClick={() => isAssembled && setSelectedPhoto(photo)}
-                                    className={`aspect-square relative rounded-lg overflow-hidden border transition-all duration-300 ${isAssembled
+                                    onClick={() => isAssembled && photo && setSelectedPhoto(photo)}
+                                    className={`aspect-square relative rounded-lg overflow-hidden border transition-all duration-300 ${isAssembled && photo
                                         ? "cursor-pointer border-white hover:scale-115 hover:z-20 shadow-xs group"
                                         : "border-dashed border-pink-200/40 bg-pink-50/5 flex items-center justify-center"
                                         }`}
                                 >
                                     {/* Dashed placeholder icon */}
-                                    {!isAssembled && (
+                                    {(!isAssembled || !photo) && (
                                         <Heart className="w-1.5 sm:w-3 h-1.5 sm:h-3 text-pink-200/30 fill-pink-200/5" />
                                     )}
 
                                     {/* Actual photo, hidden until locked in */}
-                                    <img
-                                        id={`cell-img-${currentIdx}`}
-                                        alt="kỷ niệm sinh viên"
-                                        src={photo.url}
-                                        className={`w-full h-full object-cover absolute inset-0 transition-all origin-center duration-300 opacity-0 scale-75`}
-                                        loading="lazy"
-                                    />
+                                    {photo && (
+                                        <img
+                                            id={`cell-img-${currentIdx}`}
+                                            alt="kỷ niệm sinh viên"
+                                            src={photo.url}
+                                            className={`w-full h-full object-cover absolute inset-0 transition-all origin-center duration-300 opacity-0 scale-75`}
+                                            loading="lazy"
+                                        />
+                                    )}
 
                                     {/* Hover overlay (only active once assembled) */}
-                                    {isAssembled && (
+                                    {isAssembled && photo && (
                                         <div className="absolute inset-0 bg-primary/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
                                             <Heart className="w-4 h-4 text-white fill-white animate-pulse" />
                                         </div>
@@ -789,24 +734,29 @@ export const HeartCollage = ({
 
             {/* IMAGE PREVIEW LIGHTBOX */}
             {selectedPhoto && (
-                <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in">
-                    <div className="bg-white rounded-3xl overflow-hidden max-w-lg w-full shadow-2xl relative border border-white/20">
-                        <div className="relative aspect-video">
-                            <img alt="xem ảnh kỷ niệm" src={selectedPhoto.url} className="w-full h-full object-cover" />
+                <div className="fixed inset-0 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 z-50 animate-fade-in animate-duration-300">
+                    <div className="bg-white rounded-3xl overflow-hidden max-w-2xl w-full shadow-2xl relative border border-white/20 flex flex-col max-h-[90vh]">
+                        <div className="relative bg-neutral-950 flex items-center justify-center min-h-[250px] flex-1 overflow-hidden">
+                            <img 
+                                alt="xem ảnh kỷ niệm" 
+                                src={selectedPhoto.url} 
+                                className="max-w-full max-h-[60vh] object-contain w-auto h-auto block select-none pointer-events-none" 
+                            />
                             <button
                                 onClick={() => setSelectedPhoto(null)}
-                                className="absolute top-3 right-3 bg-black/50 hover:bg-black/70 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold transition"
+                                className="absolute top-4 right-4 bg-black/60 hover:bg-black/85 text-white rounded-full w-9 h-9 flex items-center justify-center text-base font-bold transition-all hover:scale-105 active:scale-95 z-10 cursor-pointer shadow-lg"
+                                aria-label="Đóng"
                             >
                                 ✕
                             </button>
                         </div>
-                        <div className="p-5 text-center">
-                            <p className="text-neutral-700 font-semibold select-all text-sm md:text-base">
+                        <div className="p-5 text-center bg-white border-t border-neutral-100 shrink-0">
+                            <p className="text-neutral-700 font-semibold select-all text-sm md:text-base leading-relaxed">
                                 &ldquo;{selectedPhoto.caption}&rdquo;
                             </p>
                             <button
                                 onClick={() => setSelectedPhoto(null)}
-                                className="mt-4 px-5 py-2 bg-neutral-100 hover:bg-neutral-200 text-neutral-600 rounded-full text-xs font-bold transition"
+                                className="mt-4 px-6 py-2.5 bg-neutral-150 hover:bg-neutral-200 active:bg-neutral-300 text-neutral-600 rounded-full text-xs font-bold transition-all cursor-pointer"
                             >
                                 Đóng Kỷ Niệm
                             </button>

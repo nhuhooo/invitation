@@ -22,7 +22,7 @@ import { FloatingDecoration } from "@/components/FloatingDecoration";
 import { HeartCollage } from "@/components/HeartCollage";
 import { EventAddons } from "@/components/EventAddons";
 import { ScrollReveal } from "@/components/ScrollReveal";
-import { INITIAL_WISHES, EVENT_DETAILS, PRESET_IMAGES } from "@/data";
+import { EVENT_DETAILS } from "@/data";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("HOME");
