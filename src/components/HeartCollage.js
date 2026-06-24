@@ -224,7 +224,7 @@ export const HeartCollage = ({
 
     const playAudioSafely = (audioEl) => {
         if (audioEl) {
-            audioEl.play().catch(() => {});
+            audioEl.play().catch(() => { });
         }
     };
 
@@ -237,7 +237,7 @@ export const HeartCollage = ({
         const centerY = containerRect.height / 2;
 
         const timeSinceMount = Date.now() - mountTime.current;
-        
+
         // Kiểm tra xem chế độ Auto-fill cưỡng bức (click/chạm nhưng không xoay) có đang bật hay không
         const isForced = forceAutoFillTime.current !== null;
         const timeForForced = isForced ? (Date.now() - forceAutoFillTime.current) : 0;
@@ -319,7 +319,7 @@ export const HeartCollage = ({
                 // Fly to target heart cell
                 const dx = p.targetX - p.x;
                 const dy = p.targetY - p.y;
-                
+
                 // Fast exponential ease
                 p.x += dx * 0.12;
                 p.y += dy * 0.12;
@@ -339,7 +339,7 @@ export const HeartCollage = ({
                     if (cellImg) {
                         cellImg.classList.remove("opacity-0", "scale-75");
                         cellImg.classList.add("opacity-100", "scale-100", "duration-500", "ease-out");
-                        
+
                         // Briefly pop it up slightly to look polished
                         cellImg.style.transform = "scale(1.1)";
                         setTimeout(() => {
@@ -378,7 +378,7 @@ export const HeartCollage = ({
                 p.angle += 0.004;
                 const targetDriftX = centerX + Math.cos(p.angle) * p.orbitRadius - p.size / 2;
                 const targetDriftY = centerY + Math.sin(p.angle) * p.orbitRadius - p.size / 2;
-                
+
                 p.x += (targetDriftX - p.x) * 0.015;
                 p.y += (targetDriftY - p.y) * 0.015;
                 p.rotation += 0.08;
@@ -395,7 +395,7 @@ export const HeartCollage = ({
         if (allLocked) {
             setIsAssembled(true);
             setAssemblyStatus("assembled");
-            
+
             // Stop and clean up audio players on complete
             if (spaceAudioRef.current) {
                 spaceAudioRef.current.pause();
@@ -484,14 +484,14 @@ export const HeartCollage = ({
         if (isAssembled || !containerRef.current) return;
         try {
             e.currentTarget.setPointerCapture(e.pointerId);
-        } catch (err) {}
+        } catch (err) { }
 
         pointerActive.current = true;
         hasInteracted.current = true;
-        
+
         // Hủy bỏ chế độ Auto-fill cưỡng bức nếu người dùng chạm lại
         forceAutoFillTime.current = null;
-        
+
         setAssemblyStatus("swirling");
 
         const rect = containerRef.current.getBoundingClientRect();
@@ -519,11 +519,11 @@ export const HeartCollage = ({
     const handlePointerUp = (e) => {
         if (isAssembled) return;
         pointerActive.current = false;
-        
+
         const deltaX = e.clientX - startXRef.current;
         const deltaY = e.clientY - startYRef.current;
         const dragDistance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        
+
         // Nếu người dùng chạm/click nhẹ nhưng không xoay ngón tay (tiến trình xoay nhỏ hoặc khoảng cách di chuyển rất ngắn)
         // thì chuyển sang kích hoạt lốc xoáy tự động 3 giây rồi điền lần lượt giống cơ chế Auto-fill
         if (dragDistance < 15 && interactionProgress.current < 45) {
@@ -560,9 +560,10 @@ export const HeartCollage = ({
             <h2 className="text-2xl md:text-3xl font-extrabold text-primary text-center mt-3 select-none">
                 Hành Trình Kỷ Niệm
             </h2>
-            <p className="text-neutral-500 max-w-lg text-center mt-2.5 text-sm leading-relaxed px-4 select-none">
-                Ba năm rưỡi khép lại một hành trình dài để nhuhooo trưởng thành. Bốn năm ngập tràn kỷ niệm rực rỡ được lưu giữ trọn vẹn trong trái tim đong đầy tình cảm này.
-            </p>
+            <p className="text-neutral-500 text-center mt-2.5 text-sm px-4 select-none">
+                Ba năm rưỡi khép lại một hành trình dài để nhuhooo trưởng thành. Hơn ba năm ấy là biết bao bài học, thử thách, những lần vấp ngã và cả những khoảnh khắc bứt phá đáng tự hào. Từ những ngày đầu còn nhiều bỡ ngỡ đến khi tự tin bước gần hơn tới ước mơ của mình, mỗi chặng đường đều được tô điểm bằng tình bạn, sự đồng hành của người thân và những kỷ niệm không thể nào quên.
+
+                Thanh xuân dưới mái trường không chỉ là những giờ học, những kỳ thi hay những dự án miệt mài, mà còn là những tiếng cười, những lần cùng nhau cố gắng và những câu chuyện sẽ mãi trở thành một phần ký ức đẹp. Hôm nay, khi nhìn lại, tất cả những khoảnh khắc ấy đều góp phần tạo nên phiên bản tốt hơn của chính mình hôm nay. Hành trình sinh viên khép lại, nhưng những ký ức đẹp và những ước mơ phía trước sẽ mãi tiếp tục đồng hành trên chặng đường mới.          </p>
 
             {/* INSTRUCTION STATUS BANNER */}
             <div className="mt-4 px-5 py-2.5 rounded-full text-xs font-extrabold shadow-sm transition-all duration-500 z-10 flex items-center gap-1.5 min-h-[40px] select-none clay-card border border-white">
@@ -578,7 +579,7 @@ export const HeartCollage = ({
                     </span>
                 ) : (
                     <span className="text-emerald-600 font-bold flex items-center gap-1">
-                         Trái tim ký ức đã lấp đầy! Nhấp vào ảnh nhỏ để mở xem.
+                        Trái tim ký ức đã lấp đầy! Nhấp vào ảnh nhỏ để mở xem.
                     </span>
                 )}
             </div>
@@ -588,11 +589,10 @@ export const HeartCollage = ({
                 ref={gridRef}
                 className="w-full max-w-[650px] px-1 sm:px-3 py-6 flex justify-center overflow-hidden relative"
             >
-                <div 
+                <div
                     ref={containerRef}
-                    className={`grid grid-cols-10 gap-0.5 sm:gap-1 md:gap-1.5 w-full relative select-none ${
-                        isAssembled ? "" : "touch-none"
-                    }`}
+                    className={`grid grid-cols-10 gap-0.5 sm:gap-1 md:gap-1.5 w-full relative select-none ${isAssembled ? "" : "touch-none"
+                        }`}
                     onPointerDown={handlePointerDown}
                     onPointerMove={handlePointerMove}
                     onPointerUp={handlePointerUp}
@@ -612,9 +612,8 @@ export const HeartCollage = ({
                                     return (
                                         <div
                                             key="heart-badge"
-                                            className={`col-span-4 row-span-2 flex items-center justify-center z-10 p-0.5 select-none transition-all duration-1000 ${
-                                                isAssembled ? "opacity-100 scale-100" : "opacity-30 scale-95"
-                                            }`}
+                                            className={`col-span-4 row-span-2 flex items-center justify-center z-10 p-0.5 select-none transition-all duration-1000 ${isAssembled ? "opacity-100 scale-100" : "opacity-30 scale-95"
+                                                }`}
                                         >
                                             <div className="clay-card rounded-md sm:rounded-2xl border border-white/60 p-0.5 sm:p-2 text-center shadow-lg transform hover:scale-105 transition duration-300 w-full h-full flex flex-col justify-center items-center">
                                                 <Heart className="w-2.5 h-2.5 sm:w-5 sm:h-5 text-red-400 fill-red-400 animate-pulse mb-0.5 sm:mb-1.5 shrink-0" />
@@ -635,11 +634,10 @@ export const HeartCollage = ({
                                     key={`cell-${currentIdx}`}
                                     id={`placeholder-${currentIdx}`}
                                     onClick={() => isAssembled && setSelectedPhoto(photo)}
-                                    className={`aspect-square relative rounded-lg overflow-hidden border transition-all duration-300 ${
-                                        isAssembled
-                                            ? "cursor-pointer border-white hover:scale-115 hover:z-20 shadow-xs group"
-                                            : "border-dashed border-pink-200/40 bg-pink-50/5 flex items-center justify-center"
-                                    }`}
+                                    className={`aspect-square relative rounded-lg overflow-hidden border transition-all duration-300 ${isAssembled
+                                        ? "cursor-pointer border-white hover:scale-115 hover:z-20 shadow-xs group"
+                                        : "border-dashed border-pink-200/40 bg-pink-50/5 flex items-center justify-center"
+                                        }`}
                                 >
                                     {/* Dashed placeholder icon */}
                                     {!isAssembled && (

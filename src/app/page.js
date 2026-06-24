@@ -466,7 +466,7 @@ export default function App() {
 
               <ScrollReveal direction="up" delay={200} duration={1000}>
                 <h2 className=" italic text-l md:text-2xl font-extrabold text-primary leading-tight tracking-tight">
-                  đến tham dự Lễ Tốt Nghiêp của
+                  đến tham dự Lễ Tốt Nghiệp của
                 </h2>
                 <br />
                 <h1 className="font-serif italic text-3xl md:text-5xl font-extrabold text-primary leading-tight tracking-tight">
