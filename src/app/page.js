@@ -469,7 +469,7 @@ export default function App() {
                   đến tham dự Lễ Tốt Nghiệp của
                 </h2>
                 <br />
-                <h1 className="font-serif italic text-3xl md:text-5xl font-extrabold text-primary leading-tight tracking-tight">
+                <h1 className="font-serif text-3xl md:text-5xl font-extrabold text-primary leading-tight tracking-tight">
                   HỒ NGỌC NHƯ
                 </h1>
               </ScrollReveal>

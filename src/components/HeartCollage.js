@@ -606,13 +606,13 @@ export const HeartCollage = ({
             {/* INSTRUCTION STATUS BANNER */}
             <div className="mt-4 px-5 py-2.5 rounded-full text-xs font-extrabold shadow-sm transition-all duration-500 z-10 flex items-center gap-1.5 min-h-[40px] select-none clay-card border border-white">
                 {!isGridVisible ? (
-                    <span className="text-neutral-400">Đang chuẩn bị hành trình...</span>
+                    <span className="text-center text-neutral-400">Đang chuẩn bị hành trình...</span>
                 ) : assemblyStatus === "idle" ? (
-                    <span className="text-primary animate-pulse flex items-center gap-1">
+                    <span className="text-center text-primary animate-pulse flex items-center gap-1">
                         ✨ Chạm & xoay ngón tay / chuột để tụ hội vũ trụ ảnh kỷ niệm...
                     </span>
                 ) : assemblyStatus === "swirling" ? (
-                    <span className="text-pink-500 animate-pulse flex items-center gap-1">
+                    <span className="text-center text-pink-500 animate-pulse flex items-center gap-1">
                         🌀 Đang kết nối vũ trụ kỷ niệm... xoay tròn để lấp đầy!
                     </span>
                 ) : (
